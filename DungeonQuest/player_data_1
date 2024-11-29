@@ -1,0 +1,9 @@
+name=SherryMaster
+hp=100
+max_hp=100
+coins=0
+gems=0
+experience_level=1
+experience=0.000000
+experienceToNextLevel=100.000000
+expGainMultiplier=1.250000
