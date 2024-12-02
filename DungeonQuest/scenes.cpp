@@ -13,7 +13,7 @@ void mainScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << logo("", 25, 5);
+		cout << headerBoard("", 25, 5);
 
 		cout << set_space_V(3);
 		menuManager.displayMenu(MainMenu);
@@ -49,7 +49,7 @@ void playMenuScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << logo(player.getName(), 25, 5);
+		cout << headerBoard(player.getName(), 25, 5);
 
 		cout << set_space_V(3);
 		menu_manager.displayMenu(play_menu);
@@ -103,7 +103,7 @@ void selectPlayerFileScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << logo("", 25, 5);
+		cout << headerBoard("", 25, 5);
 
 		cout << set_space_V(3);
 		menu_manager.displayMenu(save_file_menu);
@@ -160,4 +160,15 @@ void loadSaveDataScene(Player player, string file_path) {
 	player.loadPlayerData();
 
 	playMenuScene(player);
+}
+
+void optionsScene(Player) {
+	// When player selects the options menu
+	
+	vector<MenuItem> options_menu_items = { MenuItem("Clear Data"), MenuItem("Back") };
+	Menu play_menu("Play", options_menu_items);
+	MenuManager menu_manager;
+
+
+
 }

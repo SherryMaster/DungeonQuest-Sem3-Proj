@@ -24,9 +24,9 @@ string word_pattern(string word, int times) {
     return pattern;
 }
 
-string logo(string player_name, int space_from_left, int space_from_above) {
+string headerBoard(string title, int space_from_left, int space_from_above) {
     int standard_size = 13;
-    std::ptrdiff_t size_diff = player_name.length() - standard_size;
+    std::ptrdiff_t size_diff = title.length() - standard_size;
 
     bool even_diff = size_diff % 2 == 0;
 
@@ -44,8 +44,8 @@ string logo(string player_name, int space_from_left, int space_from_above) {
         content.append(set_space_H(space_from_left) + "*     Welcome to    *" + "\n");
         content.append(set_space_H(space_from_left) + "*   Dungeon quest   *" + "\n");
         content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + player_name + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
+        content.append(set_space_H(space_from_left) + "*********************" + "\n");
+        content.append(set_space_H(space_from_left) + "*   " + title + "   *" + "\n");
         content.append(set_space_H(space_from_left) + "*********************" + "\n");
     }
     else if (size_diff > 0) {
@@ -54,8 +54,8 @@ string logo(string player_name, int space_from_left, int space_from_above) {
         content.append(set_space_H(space_from_left) + "*     " + set_space_H(left_spaces) + "Welcome to" + set_space_H(right_spaces) + "    *" + "\n");
         content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + "Dungeon quest" + set_space_H(right_spaces) + "   *" + "\n");
         content.append(set_space_H(space_from_left) + "*                   " + set_space_H(size_diff) + "*" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + player_name + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   " + set_space_H(size_diff) + "*" + "\n");
+        content.append(set_space_H(space_from_left) + "*********************" + word_pattern("*", size_diff) + "\n");
+        content.append(set_space_H(space_from_left) + "*   " + title + "   *" + "\n");
         content.append(set_space_H(space_from_left) + "*********************" + word_pattern("*", size_diff) + "\n");
     }
     else if (size_diff < 0) {
@@ -64,8 +64,8 @@ string logo(string player_name, int space_from_left, int space_from_above) {
         content.append(set_space_H(space_from_left) + "*     Welcome to    *" + "\n");
         content.append(set_space_H(space_from_left) + "*   Dungeon quest   *" + "\n");
         content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + player_name + set_space_H(right_spaces) + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
+        content.append(set_space_H(space_from_left) + "*********************" + "\n");
+        content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + title + set_space_H(right_spaces) + "   *" + "\n");
         content.append(set_space_H(space_from_left) + "*********************" + "\n");
     }
 

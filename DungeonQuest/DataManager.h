@@ -6,6 +6,8 @@ using namespace std;
 class DataManager {
 	vector<string> keys;
 	vector<string> values;
+
+	string data_root = "Data";
 public:
 	DataManager();
 	~DataManager();

@@ -13,3 +13,4 @@ void playMenuScene(Player player);
 void selectPlayerFileScene(Player player);
 void newSaveCreationScene(Player player, string file_path);
 void loadSaveDataScene(Player player, string file_path);
+void optionsScene(Player);

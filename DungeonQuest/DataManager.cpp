@@ -1,8 +1,10 @@
 #include"DataManager.h"
 #include<fstream>
+#include <cstring> // Include this header for c_str() function
 using namespace std;
 
 DataManager::DataManager() {
+	system(("mkdir " + data_root).c_str());
 }
 
 DataManager::~DataManager() {
@@ -10,7 +12,7 @@ DataManager::~DataManager() {
 
 void DataManager::saveData(string filename) {
 	ofstream file;
-	file.open(filename);
+	file.open(data_root + "\\" + filename);
 	for (int i = 0; i < keys.size(); i++) {
 		file << keys[i] << "=" << values[i] << endl;
 	}
@@ -24,7 +26,7 @@ void DataManager::loadData(string filename) {
 	}
 
 	ifstream file;
-	file.open(filename);
+	file.open(data_root + "\\" + filename);
 
 	string line;
 	while (getline(file, line)) {
@@ -39,7 +41,7 @@ void DataManager::loadData(string filename) {
 
 bool DataManager::fileExists(string filename) const {
 	ifstream file;
-	file.open(filename);
+	file.open(data_root + "\\" + filename);
 
 	if (file.is_open()) {
 		file.close();
