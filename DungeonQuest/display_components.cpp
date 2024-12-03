@@ -24,50 +24,88 @@ string word_pattern(string word, int times) {
     return pattern;
 }
 
-string headerBoard(string title, int space_from_left, int space_from_above) {
-    int standard_size = 13;
-    std::ptrdiff_t size_diff = title.length() - standard_size;
+string headerBoard(vector<string> inner_content, int space_from_left, int space_from_above, int min_size) {
 
-    bool even_diff = size_diff % 2 == 0;
+    int longest_length = 0;
 
-    std::ptrdiff_t left_spaces = abs(size_diff / 2);
-    std::ptrdiff_t right_spaces = left_spaces;
-    left_spaces += even_diff ? 0 : 1;
+    for (int i = 0; i < inner_content.size(); i++) {
+        string word = inner_content[i];
+        if (word.length() > longest_length) {
+            longest_length = word.length();
+        }
+    }
+
+    std::ptrdiff_t size_diff = longest_length - min_size;
 
     string content = "";
 
     content.append(set_space_V(space_from_above));
 
-    if (size_diff == 0) {
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*     Welcome to    *" + "\n");
-        content.append(set_space_H(space_from_left) + "*   Dungeon quest   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + title + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
+    if (size_diff > 0) {
+        content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + word_pattern("*", size_diff) + "\n");
     }
-    else if (size_diff > 0) {
-        content.append(set_space_H(space_from_left) + "*********************" + word_pattern("*", size_diff) + "\n");
-        content.append(set_space_H(space_from_left) + "*                   " + set_space_H(size_diff) + "*" + "\n");
-        content.append(set_space_H(space_from_left) + "*     " + set_space_H(left_spaces) + "Welcome to" + set_space_H(right_spaces) + "    *" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + "Dungeon quest" + set_space_H(right_spaces) + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   " + set_space_H(size_diff) + "*" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + word_pattern("*", size_diff) + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + title + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + word_pattern("*", size_diff) + "\n");
+    else {
+        content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + "\n");
     }
-    else if (size_diff < 0) {
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*     Welcome to    *" + "\n");
-        content.append(set_space_H(space_from_left) + "*   Dungeon quest   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*                   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
-        content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + title + set_space_H(right_spaces) + "   *" + "\n");
-        content.append(set_space_H(space_from_left) + "*********************" + "\n");
+
+    for (int i = 0; i < inner_content.size(); i++) {
+        string word = inner_content[i];
+
+        int current_size_diff = word.length() - longest_length;
+
+        bool even_diff = current_size_diff % 2 == 0;
+
+        int left_spaces = abs(current_size_diff / 2);
+        int right_spaces = left_spaces;
+        left_spaces += even_diff ? 0 : 1;
+
+        if (word == "@nl") {
+            if (size_diff > 0) {
+                content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + word_pattern("*", size_diff) + "\n");
+            }
+            else {
+                content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + "\n");
+            }
+        }
+        else if (word == "") {
+            if (size_diff > 0) {
+                content.append(set_space_H(space_from_left) + +"*   " + word_pattern(" ", min_size) + word_pattern(" ", size_diff) + "   *" + "\n");
+            }
+            else {
+                content.append(set_space_H(space_from_left) + "*   " + word_pattern(" ", min_size) + "   *" + "\n");
+            }
+        }
+        else {
+            if (current_size_diff > 0) {
+                content.append(set_space_H(space_from_left) + "*   " + word + "   *" + "\n");
+            }
+            else if (current_size_diff < 0) {
+                content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + word + set_space_H(right_spaces) + "   *" + "\n");
+            }
+            else {
+                content.append(set_space_H(space_from_left) + "*   " + word + "   *" + "\n");
+            }
+            //content.append(to_string(current_size_diff));
+        }
     }
+
+    if (size_diff > 0) {
+        content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + word_pattern("*", size_diff) + "\n");
+    }
+    else {
+        content.append(set_space_H(space_from_left) + word_pattern("*", min_size + 8) + "\n");
+    }
+
+    //content.append(to_string(size_diff));
+
+    return content;
+}
+
+string playerInfoHeader(Player player)
+{
+    string content;
+    content.append("Name: " + player.getName() + "\t\t\t\t" + "Coins: " + to_string(player.getCoins()) + "\n");
+    content.append("HP: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()) + "\t\t\t\t" + "Gems: " + to_string(player.getGems()));
 
     return content;
 }

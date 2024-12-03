@@ -13,7 +13,12 @@ void mainScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << headerBoard("", 25, 5);
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Welcome to", "Dungeon Quest", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		headerBoardContent = { "", "Here you have to kill enemies collect Loot and build yourself Stronger!", "" };
+		cout << headerBoard(headerBoardContent, 5, 1);
 
 		cout << set_space_V(3);
 		menuManager.displayMenu(MainMenu);
@@ -49,7 +54,10 @@ void playMenuScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << headerBoard(player.getName(), 25, 5);
+		cout << playerInfoHeader(player);
+
+		vector<string> headerBoardContent = { "", "Welcome to", "Dungeon Quest", "", "@nl", "Play"};
+		cout << headerBoard(headerBoardContent, 25, 5);
 
 		cout << set_space_V(3);
 		menu_manager.displayMenu(play_menu);
@@ -103,7 +111,9 @@ void selectPlayerFileScene(Player player) {
 	while (true) {
 		system("cls");
 
-		cout << headerBoard("", 25, 5);
+		vector<string> headerBoardContent = { "", "Welcome to", "Dungeon Quest", "", "@nl", "Select a File to Play" };
+
+		cout << headerBoard(headerBoardContent, 25, 5);
 
 		cout << set_space_V(3);
 		menu_manager.displayMenu(save_file_menu);
