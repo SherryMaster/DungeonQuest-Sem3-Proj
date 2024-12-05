@@ -12,10 +12,14 @@ public:
 	DataManager();
 	~DataManager();
 
+	void setDataRoot(string root);
+	string getDataRoot() const;
+
 	void saveData(string filename);
 	void loadData(string filename);
+	void deleteData(string filename);
 
-	bool fileExists(string filename) const;
+	bool fileExists(string filename, bool root_mode = true) const;
 
 	void addData(string key, string value);
 	string getData(string key);

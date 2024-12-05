@@ -4,10 +4,17 @@
 using namespace std;
 
 DataManager::DataManager() {
-	system(("mkdir " + data_root).c_str());
 }
 
 DataManager::~DataManager() {
+}
+
+void DataManager::setDataRoot(string root) {
+	data_root = root;
+}
+
+string DataManager::getDataRoot() const {
+	return data_root;
 }
 
 void DataManager::saveData(string filename) {
@@ -39,14 +46,26 @@ void DataManager::loadData(string filename) {
 	file.close();
 }
 
-bool DataManager::fileExists(string filename) const {
+void DataManager::deleteData(string filename) {
+	if (fileExists(filename)) {
+		remove((data_root + "\\" + filename).c_str());
+	}
+}
+
+bool DataManager::fileExists(string filename, bool root_mode) const {
 	ifstream file;
-	file.open(data_root + "\\" + filename);
+	if (!root_mode) {
+		file.open(filename);
+	}
+	else {
+		file.open(data_root + "\\" + filename);
+	}
 
 	if (file.is_open()) {
 		file.close();
 		return true;
 	}
+	file.close();
 	return false;
 }
 

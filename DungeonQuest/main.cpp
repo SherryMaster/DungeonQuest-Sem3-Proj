@@ -7,6 +7,9 @@ int main() {
 		cout << ch << endl;
 	}*/
 
+	// data structure genration
+	system("mkdir Data\\Player");
+
 	Player player;
 
 	mainScene(player);

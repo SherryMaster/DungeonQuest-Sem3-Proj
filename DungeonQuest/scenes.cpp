@@ -5,7 +5,7 @@ void mainScene(Player player) {
 	// Main scene where the player will have options to play, go to options or exit the game
 	// This is the very first scene to be displayed when launcing the game
 
-	vector<MenuItem> main_menu_items = { MenuItem("Play"), MenuItem("Options"), MenuItem("Exit") };
+	vector<MenuItem> main_menu_items = { MenuItem("Start"), MenuItem("Exit") };
 	Menu MainMenu("Main", main_menu_items);
 	MenuManager menuManager;
 
@@ -36,17 +36,14 @@ void mainScene(Player player) {
 		selectPlayerFileScene(player);
 	}
 	else if (choice == 1) {
-		//optionsScene();
-	}
-	else if (choice == 2) {
 		return;
 	}
 }
 
-void playMenuScene(Player player) {
+void startMenuScene(Player player) {
 	// Scene where the player will have options for starting the game or to go back
 
-	vector<MenuItem> play_menu_items = { MenuItem("New Game"), MenuItem("Back") };
+	vector<MenuItem> play_menu_items = { MenuItem("Play"), MenuItem("Options"), MenuItem("Back")};
 	Menu play_menu("Play", play_menu_items);
 	MenuManager menu_manager;
 
@@ -72,9 +69,12 @@ void playMenuScene(Player player) {
 
 	int choice = menu_manager.getSelectionPos();
 	if (choice == 0) {
-		//newGameScene(player);
+		gameScene(player);
 	}
 	else if (choice == 1) {
+		optionsScene(player);
+	}
+	else {
 		mainScene(player);
 	}
 }
@@ -86,12 +86,12 @@ void selectPlayerFileScene(Player player) {
 
 	for (int i = 0; i < 5; i++) {
 		string file_name;
-		if (data_manager.fileExists("player_data_" + to_string(i + 1))) {
+		Player tempP;
+		tempP.setPlayerDataPath("player_data_" + to_string(i + 1) + ".txt");
+		if (data_manager.fileExists(tempP.getPlayerDataPath(), false)) {
 
-			string actual_file_name = "player_data_" + to_string(i + 1);
+			string actual_file_name = tempP.getPlayerDataPath();
 
-			Player tempP;
-			tempP.setPlayerDataPath(actual_file_name);
 			tempP.loadPlayerData();
 
 			file_name = to_string(i) + ") " + tempP.getName() + " - LeveL: " + to_string(tempP.getLevel());
@@ -133,11 +133,11 @@ void selectPlayerFileScene(Player player) {
 		{
 		case 1:
 			// file exists
-			loadSaveDataScene(player, "player_data_" + to_string(choice + 1));
+			loadSaveDataScene(player, "player_data_" + to_string(choice + 1) + ".txt");
 			break;
 		case 2:
 			// file does not exists, need to make a file
-			newSaveCreationScene(player, "player_data_" + to_string(choice + 1));
+			newSaveCreationScene(player, "player_data_" + to_string(choice + 1) + ".txt");
 			break;
 		default:
 			break;
@@ -160,7 +160,7 @@ void newSaveCreationScene(Player player, string file_path) {
 	player.setPlayerDataPath(file_path);
 	player.savePlayerData();
 
-	playMenuScene(player);
+	startMenuScene(player);
 }
 
 void loadSaveDataScene(Player player, string file_path) {
@@ -169,16 +169,161 @@ void loadSaveDataScene(Player player, string file_path) {
 	player.setPlayerDataPath(file_path);
 	player.loadPlayerData();
 
-	playMenuScene(player);
+	startMenuScene(player);
 }
 
-void optionsScene(Player) {
+void optionsScene(Player player) {
 	// When player selects the options menu
 	
 	vector<MenuItem> options_menu_items = { MenuItem("Clear Data"), MenuItem("Back") };
 	Menu play_menu("Play", options_menu_items);
 	MenuManager menu_manager;
 
+	// Render
+	while (true) {
+		system("cls");
 
+		vector<string> headerBoardContent = { "", "Player settings for", player.getName(), ""};
 
+		cout << playerInfoHeader(player);
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menu_manager.displayMenu(play_menu);
+
+		int mode = menu_manager.handleMenuSelection(play_menu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menu_manager.getSelectionPos();
+	if (choice == 0) {
+		confirmClearDataScene(player);
+	}
+	else if (choice == 1) {
+		mainScene(player);
+	}
+
+}
+
+void confirmClearDataScene(Player player) {
+	// When the player wants to clear the data
+
+	vector<MenuItem> confirm_menu_items = { MenuItem("Yes"), MenuItem("No") };
+	Menu confirm_menu("Confirm", confirm_menu_items);
+	MenuManager menu_manager;
+
+	// Render
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Are you sure you want to clear the data?", "You will lose the progress made and will start", "from beggining!", ""};
+
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menu_manager.displayMenu(confirm_menu);
+
+		int mode = menu_manager.handleMenuSelection(confirm_menu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menu_manager.getSelectionPos();
+	if (choice == 0) {
+		player.deletePlayerData();
+		playerDataClearedScene(player);
+	}
+	else if (choice == 1) {
+		mainScene(player);
+	}
+}
+
+void playerDataClearedScene(Player player) {
+	// When the player has deleted the data
+
+	vector<MenuItem> confirm_menu_items = { MenuItem("Ok!") };
+	Menu confirm_menu("Go Back", confirm_menu_items);
+	MenuManager menu_manager;
+
+	// Render
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Data Cleared!", "You can now start a new game", "" };
+
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menu_manager.displayMenu(confirm_menu);
+
+		int mode = menu_manager.handleMenuSelection(confirm_menu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	mainScene(player);
+}
+
+void gameScene(Player player)
+{
+	// The main game scene where the player will play the game
+
+	vector<MenuItem> menuItems = { MenuItem("Go to Town"), MenuItem("Go to Dungeon"), MenuItem("View Inventory"), MenuItem("View Stats"), MenuItem("Save Game"), MenuItem("Exit") };
+	Menu mainMenu("Main Menu", menuItems);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+		render_game_scene:
+
+		system("cls");
+
+		cout << playerInfoHeader(player);
+
+		vector<string> headerBoardContent = { "", "Choose an option!", "" };
+
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(mainMenu);
+
+		int mode = menuManager.handleMenuSelection(mainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		//townScene(player);
+	}
+	else if (choice == 1) {
+		//dungeonScene(player);
+	}
+	else if (choice == 2) {
+		//inventoryScene(player);
+	}
+	else if (choice == 3) {
+		//statsScene(player);
+	}
+	else if (choice == 4) {
+		player.savePlayerData();
+		goto render_game_scene;
+	}
+	else {
+		mainScene(player);
+	}
 }

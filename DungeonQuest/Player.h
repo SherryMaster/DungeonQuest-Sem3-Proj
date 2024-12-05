@@ -3,17 +3,42 @@
 #include"DataManager.h"
 
 class Player : public Entity {
+	// Currency
 	int coins;
 	int gems;
 
+	// stats
 	int experience_level;
 	float experience;
-	float experienceToNextLevel;
+	float experience_to_next_level;
 
-	float expGainMultiplier = 1.25;
+	// dungeon stats
+	bool forest_dungeon_cleared = false;
+	bool jungle_dungeon_cleared = false;
+	bool cavern_dungeon_cleared = false;
+	bool underground_dungeon_cleared = false;
+	bool tundra_dungeon_cleared = false;
+	bool volcanic_dungeon_cleared = false;
+
+	int total_enemies_killed = 0;
+
+	int forest_enemies_killed = 0;
+
+	int jungle_enemies_killed = 0;
+	
+	int cavern_enemies_killed = 0;
+	
+	int underground_enemies_killed = 0;
+	
+	int tundra_enemies_killed = 0;
+	
+	int volcano_enemies_killed = 0;
+
+
+	float next_level_exp_multiplier = 1.25;
 
 	DataManager dataManager;
-	string playerDataPath = "player_data_1.txt";
+	string player_data_path = "player_data_1.txt";
 
 public:
 	Player();
@@ -23,12 +48,14 @@ public:
 	void setGems(int gems);
 	void setLevel(int experience_level);
 	void setExperience(int experience);
+	void setExperienceToNextLevel(float experience_to_next_level);
 	void setPlayerDataPath(string path);
 
 	int getCoins() const;
 	int getGems() const;
 	int getLevel() const;
 	int getExperience() const;
+	int getExperienceToNextLevel() const;
 	string getPlayerDataPath() const;
 
 	void adjustCoins(int coins);
@@ -38,5 +65,6 @@ public:
 
 	void savePlayerData();
 	void loadPlayerData();
+	void deletePlayerData();
 
 };

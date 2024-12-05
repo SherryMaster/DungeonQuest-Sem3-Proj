@@ -104,8 +104,24 @@ string headerBoard(vector<string> inner_content, int space_from_left, int space_
 string playerInfoHeader(Player player)
 {
     string content;
-    content.append("Name: " + player.getName() + "\t\t\t\t" + "Coins: " + to_string(player.getCoins()) + "\n");
-    content.append("HP: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()) + "\t\t\t\t" + "Gems: " + to_string(player.getGems()));
+    content.append("Name: " + player.getName() + "\n");
+    content.append("Coins: " + to_string(player.getCoins()) + "\t\t\t\t" + "Gems: " + to_string(player.getGems()) + "\n");
+    content.append("HP: " + to_string(player.getHealth()) + "/" + to_string(player.getMaxHealth()) + "\t" + progressBar(player.getHealth(), player.getMaxHealth(), 50));
+    content.append("\nLevel: " + to_string(player.getLevel()) + "\n");
+    content.append("XP: " + to_string(player.getExperience()) + "/" + to_string(player.getExperienceToNextLevel()) + "\t" + progressBar(player.getExperience(), player.getExperienceToNextLevel(), 50) + "\n");
 
     return content;
+}
+
+string progressBar(float current, float max, int width)
+{
+	string content;
+	int progress = (current / max) * width;
+
+	content.append("[");
+	content.append(word_pattern("=", progress));
+	content.append(word_pattern(" ", width - progress));
+	content.append("]");
+    
+	return content;
 }
