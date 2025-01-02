@@ -104,6 +104,8 @@ void selectPlayerFileScene(Player player) {
 		}
 	}
 
+	files.push_back(MenuItem("6) Back"));
+
 	Menu save_file_menu("Save File Menu", files);
 	MenuManager menu_manager;
 
@@ -143,7 +145,7 @@ void selectPlayerFileScene(Player player) {
 			break;
 		}
 	}
-	else if (choice == 1) {
+	else {
 		mainScene(player);
 	}
 }
@@ -204,7 +206,7 @@ void optionsScene(Player player) {
 		confirmClearDataScene(player);
 	}
 	else if (choice == 1) {
-		mainScene(player);
+		startMenuScene(player);
 	}
 
 }

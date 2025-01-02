@@ -17,7 +17,6 @@ class Player : public Entity {
 	bool jungle_dungeon_cleared = false;
 	bool cavern_dungeon_cleared = false;
 	bool underground_dungeon_cleared = false;
-	bool tundra_dungeon_cleared = false;
 	bool volcanic_dungeon_cleared = false;
 
 	int total_enemies_killed = 0;
@@ -29,8 +28,6 @@ class Player : public Entity {
 	int cavern_enemies_killed = 0;
 	
 	int underground_enemies_killed = 0;
-	
-	int tundra_enemies_killed = 0;
 	
 	int volcano_enemies_killed = 0;
 
