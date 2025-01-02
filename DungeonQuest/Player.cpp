@@ -5,6 +5,8 @@ using namespace std;
 Player::Player() {
 	coins = 0;
 	gems = 0;
+	health = 100;
+	maxHealth = 100;
 	experience_level = 1;
 	experience = 0;
 	experience_to_next_level = 100;
@@ -20,6 +22,14 @@ void Player::setCoins(int coins) {
 
 void Player::setGems(int gems) {
 	this->gems = gems;
+}
+
+void Player::setHealth(int health) {
+	this->health = health;
+}
+
+void Player::setMaxHealth(int maxHealth) {
+	this->maxHealth = maxHealth;
 }
 
 void Player::setLevel(int experience_level) {
@@ -49,6 +59,14 @@ int Player::getCoins() const {
 
 int Player::getGems() const {
 	return gems;
+}
+
+int Player::getHealth() const {
+	return health;
+}
+
+int Player::getMaxHealth() const {
+	return maxHealth;
 }
 
 int Player::getLevel() const {

@@ -8,6 +8,8 @@ class Player : public Entity {
 	int gems;
 
 	// stats
+	int health;
+	int maxHealth;
 	int experience_level;
 	float experience;
 	float experience_to_next_level;
@@ -43,6 +45,8 @@ public:
 
 	void setCoins(int coins);
 	void setGems(int gems);
+	void setHealth(int health);
+	void setMaxHealth(int maxHealth);
 	void setLevel(int experience_level);
 	void setExperience(int experience);
 	void setExperienceToNextLevel(float experience_to_next_level);
@@ -50,6 +54,8 @@ public:
 
 	int getCoins() const;
 	int getGems() const;
+	int getHealth() const;
+	int getMaxHealth() const;
 	int getLevel() const;
 	int getExperience() const;
 	int getExperienceToNextLevel() const;

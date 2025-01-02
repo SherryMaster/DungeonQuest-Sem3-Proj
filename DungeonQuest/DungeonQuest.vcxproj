@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="display_components.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="MenuSelection.h" />

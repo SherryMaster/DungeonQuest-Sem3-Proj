@@ -280,7 +280,7 @@ void gameScene(Player player)
 {
 	// The main game scene where the player will play the game
 
-	vector<MenuItem> menuItems = { MenuItem("Go to Town"), MenuItem("Go to Dungeon"), MenuItem("View Inventory"), MenuItem("View Stats"), MenuItem("Save Game"), MenuItem("Exit") };
+	vector<MenuItem> menuItems = { MenuItem("Go to Town"), MenuItem("Go to Dungeon"), MenuItem("View Inventory"), MenuItem("Save Game"), MenuItem("Exit") };
 	Menu mainMenu("Main Menu", menuItems);
 	MenuManager menuManager;
 
@@ -319,13 +319,10 @@ void gameScene(Player player)
 		//inventoryScene(player);
 	}
 	else if (choice == 3) {
-		//statsScene(player);
-	}
-	else if (choice == 4) {
 		player.savePlayerData();
 		goto render_game_scene;
 	}
 	else {
-		mainScene(player);
+		startMenuScene(player);
 	}
 }
