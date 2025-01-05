@@ -1,7 +1,6 @@
 #include"DataManager.h"
 #include<fstream>
 #include <cstring> // Include this header for c_str() function
-using namespace std;
 
 DataManager::DataManager() {
 }

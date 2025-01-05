@@ -1,16 +1,160 @@
 #include"scenes.h"
 #include"DataManager.h"
+#include"fstream"
+
+void testing(Player player) {
+
+	cout << "Enter testing password: ";
+	string password;
+	getline(cin, password);
+
+	if (password != "test") {
+		cout << "Invalid password!";
+		return;
+	}
+
+	vector<MenuItem> main_menu_items = { MenuItem("Generate Swords"), MenuItem("Back")};
+	Menu MainMenu("Test", main_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Testing Panel", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(MainMenu);
+
+		int mode = menuManager.handleMenuSelection(MainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		generate_swords();
+	}
+	if (choice == 1) {
+		mainScene(player);
+	}
+	else {
+		return;
+	}
+
+}
+
+void generate_swords() {
+	DataManager dm;
+
+	dm.setDataRoot(dm.getDataRoot() + "\\Weapons\\Swords");
+	dm.loadData("swords_count.txt");
+	int total_swords = stoi(dm.getData("total"));
+	int common_swords = stoi(dm.getData("common"));
+	int uncommon_swords = stoi(dm.getData("uncommon"));
+	int rare_swords = stoi(dm.getData("rare"));
+	int epic_swords = stoi(dm.getData("epic"));
+
+	int common_damage_range[2] = { 5, 10 };
+	int uncommon_damage_range[2] = { 10, 15 };
+	int rare_damage_range[2] = { 15, 20 };
+	int epic_damage_range[2] = { 20, 25 };
+
+	int common_durability_range[2] = { 10, 25 };
+	int uncommon_durability_range[2] = { 20, 50 };
+	int rare_durability_range[2] = { 45, 100 };
+	int epic_durability_range[2] = { 100, 200 };
+
+	ifstream fin;
+	ofstream fout;
+	fin.open(dm.getDataRoot() + "\\" + "swords.txt");
+
+	for (int i = 0; i < total_swords; i++) {
+
+		string sword_name;
+		int sword_damage_start;
+		int sword_damage_end;
+		int sword_durabilty_start;
+		int sword_durabilty_end;
+		string sword_type;
+
+		fin >> sword_name;
+
+		if (common_swords > 0) {
+			common_swords--;
+			sword_type = "common";
+			sword_damage_start = common_damage_range[0];
+			sword_damage_end = common_damage_range[1];
+
+			//sword_durabilty = rand() % (common_durability_range[1] - common_durability_range[0] + 1) + common_durability_range[0];
+			sword_durabilty_start = common_durability_range[0];
+			sword_durabilty_end = common_durability_range[1];
+		}
+		else if (uncommon_swords > 0) {
+			uncommon_swords--;
+			sword_type = "uncommon";
+			sword_damage_start = uncommon_damage_range[0];
+			sword_damage_end = uncommon_damage_range[1];
+
+			//sword_durabilty = rand() % (uncommon_durability_range[1] - uncommon_durability_range[0] + 1) + uncommon_durability_range[0];
+			sword_durabilty_start = uncommon_durability_range[0];
+			sword_durabilty_end = uncommon_durability_range[1];
+		}
+		else if (rare_swords > 0) {
+			rare_swords--;
+			sword_type = "rare";
+			sword_damage_start = rare_damage_range[0];
+			sword_damage_end = rare_damage_range[1];
+
+			//sword_durabilty = rand() % (rare_durability_range[1] - rare_durability_range[0] + 1) + rare_durability_range[0];
+			sword_durabilty_start = rare_durability_range[0];
+			sword_durabilty_end = rare_durability_range[1];
+		}
+		else if (epic_swords > 0) {
+			epic_swords--;
+			sword_type = "epic";
+			sword_damage_start = epic_damage_range[0];
+			sword_damage_end = epic_damage_range[1];
+
+			//sword_durabilty = rand() % (epic_durability_range[1] - epic_durability_range[0] + 1) + epic_durability_range[0];
+			sword_durabilty_start = epic_durability_range[0];
+			sword_durabilty_end = epic_durability_range[1];
+		}
+
+
+		fout.open(dm.getDataRoot() + "\\" + to_string(i + 1) + " " + sword_name + ".txt");
+		fout << "name=" << sword_name << endl;
+		fout << "rarity=" << sword_type << endl;
+		fout << "damage_start=" << sword_damage_start << endl;
+		fout << "damage_end=" << sword_damage_end << endl;
+		fout << "durability_start=" << sword_durabilty_start << endl;
+		fout << "durability_end=" << sword_durabilty_end << endl;
+		fout.close();
+	}
+	fin.close();
+}
+
+/////////////////////////////////
+// Scenes
+/////////////////////////////////
 
 void mainScene(Player player) {
 	// Main scene where the player will have options to play, go to options or exit the game
 	// This is the very first scene to be displayed when launcing the game
 
-	vector<MenuItem> main_menu_items = { MenuItem("Start"), MenuItem("Exit") };
+	vector<MenuItem> main_menu_items = { MenuItem("Start"), MenuItem("Exit"), MenuItem("Test")};
 	Menu MainMenu("Main", main_menu_items);
 	MenuManager menuManager;
 
 	// Render
 	while (true) {
+		render:
 		system("cls");
 
 		vector<string> headerBoardContent;
@@ -37,6 +181,10 @@ void mainScene(Player player) {
 	}
 	else if (choice == 1) {
 		return;
+	}
+	else if (choice == 2) {
+		testing(player);
+		//goto render;
 	}
 }
 
@@ -286,7 +434,7 @@ void gameScene(Player player)
 
 	// Render
 	while (true) {
-		render_game_scene:
+		render:
 
 		system("cls");
 
@@ -320,7 +468,7 @@ void gameScene(Player player)
 	}
 	else if (choice == 3) {
 		player.savePlayerData();
-		goto render_game_scene;
+		goto render;
 	}
 	else {
 		startMenuScene(player);

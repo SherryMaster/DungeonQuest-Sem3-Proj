@@ -7,6 +7,8 @@
 #include"Player.h"
 using namespace std;
 
+void testing(Player player); // For development purposes only.
+void generate_swords(); // Generates Sword Files uses the configs in the folder.
 
 void mainScene(Player player); // The first scene the player see. // Chosen when exiting the gameScene. 
 void selectPlayerFileScene(Player player); // The scene where the player selects the file to load. // Chosen in mainScene.
