@@ -10,7 +10,7 @@ Player::Player() {
 	experience_level = 1;
 	experience = 0;
 	experience_to_next_level = 100;
-	dataManager.setDataRoot(dataManager.getDataRoot() + "\\" + "Player");
+	dataManager.setDataRoot(dataManager.getDataRoot() + "\\" + "Players");
 }
 
 Player::~Player() {
@@ -49,6 +49,11 @@ void Player::setPlayerDataPath(string path) {
 	this->player_data_path = path;
 }
 
+void Player::setPlayerNum(int num) {
+	this->player_num = num;
+	player_data_path = "Player " + to_string(num);
+}
+
 string Player::getPlayerDataPath() const {
 	return dataManager.getDataRoot() + "\\" + player_data_path;
 }
@@ -77,8 +82,7 @@ int Player::getExperience() const {
 	return experience;
 }
 
-int Player::getExperienceToNextLevel() const
-{
+int Player::getExperienceToNextLevel() const{
 	return experience_to_next_level;
 }
 
@@ -104,54 +108,54 @@ void Player::levelUp() {
 }
 
 void Player::savePlayerData() {
-	vector<string> keys = { "name", "hp", "max_hp", "coins", "gems", "experience_level", "experience", "experienceToNextLevel", "expGainMultiplier"};
-	vector<string> values = { getName(), to_string(getHealth()), to_string(getMaxHealth()), to_string(coins), to_string(gems), to_string(experience_level), to_string(experience), to_string(experience_to_next_level), to_string(next_level_exp_multiplier)};
+	vector<string> personal_stats_keys = { "name", "hp", "max_hp", "coins", "gems", "experience_level", "experience", "experienceToNextLevel", "expGainMultiplier" };
+	vector<string> personal_stats_values = { getName(), to_string(getHealth()), to_string(getMaxHealth()), to_string(coins), to_string(gems), to_string(experience_level), to_string(experience), to_string(experience_to_next_level), to_string(next_level_exp_multiplier)};
 
 	dataManager.clearData();
-	for (int i = 0; i < keys.size(); i++) {
-		dataManager.addData(keys[i], values[i]);
+	for (int i = 0; i < personal_stats_keys.size(); i++) {
+		dataManager.addData(personal_stats_keys[i], personal_stats_values[i]);
 	}
-	dataManager.saveData(player_data_path);
+	dataManager.saveData(player_data_path + "personal stats.txt");
 }
 
 void Player::loadPlayerData() {
-	dataManager.loadData(player_data_path);
-
 	if (!dataManager.fileExists(player_data_path)) {
 		savePlayerData();
 		return;
 	}
+	
+	dataManager.loadData(player_data_path + "personal stats.txt");
 
-	vector<string> keys = dataManager.getKeys();
-	vector<string> values = dataManager.getValues();
+	vector<string> personal_stats_keys = dataManager.getKeys();
+	vector<string> personal_stats_values = dataManager.getValues();
 
-	for (int i = 0; i < keys.size(); i++) {
-		if (keys[i] == "name") {
-			setName(values[i]);
+	for (int i = 0; i < personal_stats_keys.size(); i++) {
+		if (personal_stats_keys[i] == "name") {
+			setName(personal_stats_values[i]);
 		}
-		else if (keys[i] == "hp") {
-			setHealth(stoi(values[i]));
+		else if (personal_stats_keys[i] == "hp") {
+			setHealth(stoi(personal_stats_values[i]));
 		}
-		else if (keys[i] == "max_hp") {
-			setMaxHealth(stoi(values[i]));
+		else if (personal_stats_keys[i] == "max_hp") {
+			setMaxHealth(stoi(personal_stats_values[i]));
 		}
-		else if (keys[i] == "coins") {
-			coins = stoi(values[i]);
+		else if (personal_stats_keys[i] == "coins") {
+			coins = stoi(personal_stats_values[i]);
 		}
-		else if (keys[i] == "gems") {
-			gems = stoi(values[i]);
+		else if (personal_stats_keys[i] == "gems") {
+			gems = stoi(personal_stats_values[i]);
 		}
-		else if (keys[i] == "experience_level") {
-			experience_level = stoi(values[i]);
+		else if (personal_stats_keys[i] == "experience_level") {
+			experience_level = stoi(personal_stats_values[i]);
 		}
-		else if (keys[i] == "experience") {
-			experience = stof(values[i]);
+		else if (personal_stats_keys[i] == "experience") {
+			experience = stof(personal_stats_values[i]);
 		}
-		else if (keys[i] == "experienceToNextLevel") {
-			experience_to_next_level = stof(values[i]);
+		else if (personal_stats_keys[i] == "experienceToNextLevel") {
+			experience_to_next_level = stof(personal_stats_values[i]);
 		}
-		else if (keys[i] == "expGainMultiplier") {
-			next_level_exp_multiplier = stof(values[i]);
+		else if (personal_stats_keys[i] == "expGainMultiplier") {
+			next_level_exp_multiplier = stof(personal_stats_values[i]);
 		}
 	}
 }

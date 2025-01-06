@@ -1,6 +1,7 @@
 #pragma once
 #include"Entity.h"
 #include"DataManager.h"
+#include"Inventory.h"
 
 class Player : public Entity {
 	// Currency
@@ -13,6 +14,9 @@ class Player : public Entity {
 	int experience_level;
 	float experience;
 	float experience_to_next_level;
+
+	// inventory
+	Inventory inventory;
 
 	// dungeon stats
 	bool forest_dungeon_cleared = false;
@@ -37,7 +41,8 @@ class Player : public Entity {
 	float next_level_exp_multiplier = 1.25;
 
 	DataManager dataManager;
-	string player_data_path = "player_data_1.txt";
+	string player_data_path = "Player -1";
+	int player_num = 1;
 
 public:
 	Player();
@@ -50,7 +55,8 @@ public:
 	void setLevel(int experience_level);
 	void setExperience(int experience);
 	void setExperienceToNextLevel(float experience_to_next_level);
-	void setPlayerDataPath(string path);
+	void setPlayerDataPath(string path); //--
+	void setPlayerNum(int num);
 
 	int getCoins() const;
 	int getGems() const;
@@ -60,6 +66,7 @@ public:
 	int getExperience() const;
 	int getExperienceToNextLevel() const;
 	string getPlayerDataPath() const;
+	int getPlayerNum() const;
 
 	void adjustCoins(int coins);
 	void adjustGems(int gems);
