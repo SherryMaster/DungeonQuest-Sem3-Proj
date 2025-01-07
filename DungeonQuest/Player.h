@@ -1,7 +1,9 @@
 #pragma once
-#include"Entity.h"
-#include"DataManager.h"
-#include"Inventory.h"
+#include "Entity.h"
+#include "DataManager.h"
+#include "Inventory.h"
+
+//class Inventory;
 
 class Player : public Entity {
 	// Currency
@@ -66,7 +68,6 @@ public:
 	int getExperience() const;
 	int getExperienceToNextLevel() const;
 	string getPlayerDataPath() const;
-	int getPlayerNum() const;
 
 	void adjustCoins(int coins);
 	void adjustGems(int gems);
@@ -76,5 +77,4 @@ public:
 	void savePlayerData();
 	void loadPlayerData();
 	void deletePlayerData();
-
 };

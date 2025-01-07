@@ -15,7 +15,7 @@ void selectPlayerFileScene(Player player); // The scene where the player selects
 void newSaveCreationScene(Player player, string file_path); // The scene where the player creates a new save file. // Chosen in selectPlayerFileScene.
 void loadSaveDataScene(Player player, string file_path); // The scene where the player loads the save file. // Chosen in selectPlayerFileScene.
 void startMenuScene(Player player); // When player is selected this becomes the main menu. // Chosen through player selecion in newSaveCreationScene and loadSaveDataScene + exiting in gameScene.
-void optionsScene(Player); // When player selects the options menu. // Chosen in startMenuScene.
+void optionsScene(Player player); // When player selects the options menu. // Chosen in startMenuScene.
 void confirmClearDataScene(Player player); // When player selects the clear data option. // Chosen in optionsScene.
 void playerDataClearedScene(Player player); // When player confirms the clear data option. // Chosen in confirmClearDataScene.
 void gameScene(Player player); // The main game scene. // Chosen in startMenuScene + exiting the optionsScene and playerStatsScene.

@@ -35,6 +35,14 @@ void Item::setRarity(string rarity) {
 	this->rarity = rarity;
 }
 
+void Item::setQuantity(int quantity) {
+	this->quantity = quantity;
+}
+
+void Item::setType(string type) {
+	this->type = type;
+}
+
 string Item::getName() const {
 	return name;
 }

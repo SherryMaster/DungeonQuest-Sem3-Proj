@@ -1,9 +1,10 @@
 #pragma once
 #include<string>
 #include<vector>
-#include"Player.h"
+//#include"Player.h"
 using namespace std;
 
+class Inventory;
 class Item;
 class Weapon;
 class Armor;
@@ -17,10 +18,10 @@ public:
 	Inventory();
 	void addItem(Item item);
 
-	vector<Item> getSwords() const;
-	vector<Item> getArmors() const;
-	vector<Item> getPotions() const;
-	vector<Item> getItems() const;
+	//vector<Item> getSwords() const;
+	//vector<Item> getArmors() const;
+	//vector<Item> getPotions() const;
+	//vector<Item> getItems() const;
 };
 
 class Item {
@@ -85,5 +86,5 @@ public:
 
 	int getHealth() const;
 
-	void use(Player& player);
+	//void use(Player& player);
 };
