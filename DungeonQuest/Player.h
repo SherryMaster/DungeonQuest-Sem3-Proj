@@ -74,6 +74,8 @@ public:
 	void gainExperience(int experience);
 	void levelUp();
 
+	void setupInventory();
+
 	void savePlayerData();
 	void loadPlayerData();
 	void deletePlayerData();

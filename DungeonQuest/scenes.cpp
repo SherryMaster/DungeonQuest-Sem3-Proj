@@ -474,3 +474,40 @@ void gameScene(Player player)
 		startMenuScene(player);
 	}
 }
+
+void inventoryScene(Player player) {
+	// The scene where the player can see their inventory
+
+	vector<MenuItem> menuItems = { MenuItem("Back") };
+	Menu mainMenu("Inventory", menuItems);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+
+		system("cls");
+
+		cout << playerInfoHeader(player);
+
+		vector<string> headerBoardContent = { "", "Inventory", "" };
+
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(mainMenu);
+
+		int mode = menuManager.handleMenuSelection(mainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		gameScene(player);
+	}
+}

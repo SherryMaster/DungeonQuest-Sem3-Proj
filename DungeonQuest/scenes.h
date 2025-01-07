@@ -19,4 +19,5 @@ void optionsScene(Player player); // When player selects the options menu. // Ch
 void confirmClearDataScene(Player player); // When player selects the clear data option. // Chosen in optionsScene.
 void playerDataClearedScene(Player player); // When player confirms the clear data option. // Chosen in confirmClearDataScene.
 void gameScene(Player player); // The main game scene. // Chosen in startMenuScene + exiting the optionsScene and playerStatsScene.
+void inventoryScene(Player player); // The scene where the player can see their inventory. // Chosen in startMenuScene.
 void playerStatsScene(Player player); // The scene where the player can see their stats. // Chosen in startMenuScene.

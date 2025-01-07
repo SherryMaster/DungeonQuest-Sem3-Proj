@@ -1,5 +1,5 @@
 #include"Player.h"
-
+#include<fstream>
 using namespace std;
 
 Player::Player() {
@@ -105,6 +105,68 @@ void Player::levelUp() {
 	experience_level++;
 	experience = 0;
 	experience_to_next_level *= next_level_exp_multiplier;
+}
+
+void Player::setupInventory() {
+	DataManager dm;
+	if (!dm.fileExists(dataManager.getDataRoot() + "inventory.txt")) {
+		ofstream fout;
+		ifstream fin;
+
+		dm.loadData("Configs\\Inventory\\items count.txt");
+		int swords = stoi(dm.getData("swords"));
+		int swords_rarities[4] = { stoi(dm.getData("sword_common")), stoi(dm.getData("sword_uncommon")), stoi(dm.getData("sword_rare")), stoi(dm.getData("sword_epic")) };
+		int armors = stoi(dm.getData("armors"));
+		int armors_rarities[4] = { stoi(dm.getData("armor_common")), stoi(dm.getData("armor_uncommon")), stoi(dm.getData("armor_rare")), stoi(dm.getData("armor_epic")) };
+		int potions = stoi(dm.getData("potions"));
+		int potions_rarities[4] = { stoi(dm.getData("potion_common")), stoi(dm.getData("potion_uncommon")), stoi(dm.getData("potion_rare")), stoi(dm.getData("potion_epic")) };
+
+		vector<Sword> sword_items;
+		vector<Armor> armor_items;
+		vector<Potion> potion_items;
+
+		fin.open( dm.getDataRoot() + "\\Configs\\Inventory\\all item list.txt");
+		for (int i = 0; i < (swords + armors + potions); i++) {
+			if (swords) {
+				if (swords_rarities[0]) {
+					Sword sword;
+					sword.setName("Common Sword");
+					sword.setPrice(10);
+					sword.setRarity("Common");
+					sword.setDamage(5);
+					sword_items.push_back(sword);
+					swords_rarities[0]--;
+				}
+				else if (swords_rarities[1]) {
+					Sword sword;
+					sword.setName("Uncommon Sword");
+					sword.setPrice(20);
+					sword.setRarity("Uncommon");
+					sword.setDamage(10);
+					sword_items.push_back(sword);
+					swords_rarities[1]--;
+				}
+				else if (swords_rarities[2]) {
+					Sword sword;
+					sword.setName("Rare Sword");
+					sword.setPrice(30);
+					sword.setRarity("Rare");
+					sword.setDamage(15);
+					sword_items.push_back(sword);
+					swords_rarities[2]--;
+				}
+				else if (swords_rarities[3]) {
+					Sword sword;
+					sword.setName("Epic Sword");
+					sword.setPrice(40);
+					sword.setRarity("Epic");
+					sword.setDamage(20);
+					sword_items.push_back(sword);
+					swords_rarities[3]--;
+				}
+			}
+		}
+	}
 }
 
 void Player::savePlayerData() {

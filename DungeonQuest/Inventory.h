@@ -6,7 +6,7 @@ using namespace std;
 
 class Inventory;
 class Item;
-class Weapon;
+class Sword;
 class Armor;
 class Potion;
 
@@ -18,10 +18,11 @@ public:
 	Inventory();
 	void addItem(Item item);
 
-	//vector<Item> getSwords() const;
-	//vector<Item> getArmors() const;
-	//vector<Item> getPotions() const;
-	//vector<Item> getItems() const;
+	vector<Sword> getSwords() const;
+	vector<Armor> getArmors() const;
+	vector<Potion> getPotions() const;
+	vector<Item> getItems() const;
+
 };
 
 class Item {
@@ -50,12 +51,12 @@ public:
 	string getType() const;
 };
 
-class Weapon : public Item {
+class Sword : public Item {
 	int damage;
 
 public:
-	Weapon();
-	Weapon(string name, int price, int damage);
+	Sword();
+	Sword(string name, int price, int damage);
 
 	void setDamage(int dmg);
 
@@ -85,6 +86,4 @@ public:
 	void setHealth(int hp);
 
 	int getHealth() const;
-
-	//void use(Player& player);
 };

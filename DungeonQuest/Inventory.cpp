@@ -55,21 +55,21 @@ string Item::getRarity() const {
 	return rarity;
 }
 
-Weapon::Weapon() {
+Sword::Sword() {
 	damage = 0;
 	setType("Weapon");
 }
 
-Weapon::Weapon(string name, int price, int damage) : Item(name, price) {
+Sword::Sword(string name, int price, int damage) : Item(name, price) {
 	this->damage = damage;
 	setType("Weapon");
 }
 
-void Weapon::setDamage(int dmg) {
+void Sword::setDamage(int dmg) {
 	damage = dmg;
 }
 
-int Weapon::getDamage() const {
+int Sword::getDamage() const {
 	return damage;
 }
 

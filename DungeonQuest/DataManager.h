@@ -8,6 +8,7 @@ class DataManager {
 	vector<string> values;
 
 	string data_root = "Data";
+	string configs = data_root + "\\Configs";
 public:
 	DataManager();
 	~DataManager();
