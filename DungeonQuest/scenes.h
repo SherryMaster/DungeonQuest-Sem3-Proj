@@ -9,6 +9,7 @@ using namespace std;
 
 void testing(Player player); // For development purposes only.
 void generate_swords(); // Generates Sword Files uses the configs in the folder.
+void item_obtain_scene(Player player); // The scene for testing purpose where the player can obtain items. chosen in testing.
 
 void mainScene(Player player); // The first scene the player see. // Chosen when exiting the gameScene. 
 void selectPlayerFileScene(Player player); // The scene where the player selects the file to load. // Chosen in mainScene.

@@ -1,46 +1,73 @@
 #include"Inventory.h"
 
 Inventory::Inventory() {
-	items = vector<Item>();
+	swords = vector<Sword>();
 }
 
-void Inventory::addItem(Item item) {
-	items.push_back(item);
+void Inventory::addSword(Sword sword) {
+	swords.push_back(sword);
+}
+
+void Inventory::addArmor(Armor armor) {
+	armors.push_back(armor);
+}
+
+void Inventory::addPotion(Potion potion) {
+	potions.push_back(potion);
+}
+
+vector<Sword> Inventory::getSwords() const {
+	return swords;
+}
+
+vector<Armor> Inventory::getArmors() const {
+	return armors;
+}
+
+vector<Potion> Inventory::getPotions() const {
+	return potions;
 }
 
 Item::Item() {
 	name = "";
 	price = 0;
+	quantity = 1;
 }
 
-Item::Item(string name) {
-	this->name = name;
-	price = 0;
-}
-
-Item::Item(string name, int price) {
+Item::Item(string name, int price, int quantity) {
 	this->name = name;
 	this->price = price;
-}
-
-void Item::setName(string name) {
-	this->name = name;
-}
-
-void Item::setPrice(int price) {
-	this->price = price;
-}
-
-void Item::setRarity(string rarity) {
-	this->rarity = rarity;
-}
-
-void Item::setQuantity(int quantity) {
 	this->quantity = quantity;
 }
 
-void Item::setType(string type) {
+Item& Item::setName(string name) {
+	this->name = name;
+	return *this;
+}
+
+Item& Item::setPrice(int price) {
+	this->price = price;
+	return *this;
+}
+
+Item& Item::setRarity(string rarity) {
+	this->rarity = rarity;
+	return *this;
+}
+
+Item& Item::setQuantity(int quantity) {
+	this->quantity = quantity;
+	return *this;
+}
+
+Item& Item::setType(string type) {
 	this->type = type;
+	return *this;
+}
+
+Item& Item::stackAble(bool boolean) {
+	stackable = boolean;
+	return *this;
 }
 
 string Item::getName() const {
@@ -55,14 +82,28 @@ string Item::getRarity() const {
 	return rarity;
 }
 
+int Item::getQuantity() const {
+	return quantity;
+}
+
+string Item::getType() const {
+	return type;
+}
+
+bool Item::isStackable() const {
+	return stackable;
+}
+
 Sword::Sword() {
 	damage = 0;
 	setType("Weapon");
+	stackAble(false);
 }
 
-Sword::Sword(string name, int price, int damage) : Item(name, price) {
+Sword::Sword(string name, int price, int damage) : Item(name, price, 1) {
 	this->damage = damage;
 	setType("Weapon");
+	stackAble(false);
 }
 
 void Sword::setDamage(int dmg) {
@@ -76,11 +117,13 @@ int Sword::getDamage() const {
 Armor::Armor() {
 	defense = 0;
 	setType("Armor");
+	stackAble(false);
 }
 
-Armor::Armor(string name, int price, int defense) : Item(name, price) {
+Armor::Armor(string name, int price, int defense) : Item(name, price, 1) {
 	this->defense = defense;
 	setType("Armor");
+	stackAble(false);
 }
 
 void Armor::setDefense(int def) {
@@ -94,13 +137,15 @@ int Armor::getDefense() const {
 Potion::Potion() {
 	health = 0;
 	setType("Potion");
+	stackAble(true);
 }
 
-Potion::Potion(string name, int price, int health) : Item(name, price) {
+Potion::Potion(string name, int price, int health) : Item(name, price, 1) {
 	this->health = health;
 	setType("Potion");
+	stackAble(true);
 }
-
+																																																
 void Potion::setHealth(int hp) {
 	health = hp;
 }

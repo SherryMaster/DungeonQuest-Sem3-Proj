@@ -12,16 +12,20 @@ class Potion;
 
 class Inventory {
 	
-	vector<Item> items;
+	vector<Sword> swords;
+	vector<Armor> armors;
+	vector<Potion> potions;
 
 public:
 	Inventory();
-	void addItem(Item item);
+
+	void addSword(Sword sword);
+	void addArmor(Armor armor);
+	void addPotion(Potion potion);
 
 	vector<Sword> getSwords() const;
 	vector<Armor> getArmors() const;
 	vector<Potion> getPotions() const;
-	vector<Item> getItems() const;
 
 };
 
@@ -33,22 +37,25 @@ class Item {
 	int quantity;
 	string type;
 
+	bool stackable;
+
 public:
 	Item();
-	Item(string name);
-	Item(string name, int price);
+	Item(string name, int price, int quantity);
 
-	void setName(string name);
-	void setPrice(int price);
-	void setRarity(string rarity);
-	void setQuantity(int quantity);
-	void setType(string type);
+	Item& setName(string name);
+	Item& setPrice(int price);
+	Item& setRarity(string rarity);
+	Item& setQuantity(int quantity);
+	Item& setType(string type);
+	Item& stackAble(bool boolean);
 
 	string getName() const;
 	int getPrice() const;
 	string getRarity() const;
 	int getQuantity() const;
 	string getType() const;
+	bool isStackable() const;
 };
 
 class Sword : public Item {

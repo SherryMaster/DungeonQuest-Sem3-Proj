@@ -140,6 +140,55 @@ void generate_swords() {
 	fin.close();
 }
 
+void item_obtain_scene(Player player) {
+	// The scene where the player can obtain items for testing purposes
+
+	vector<MenuItem> menuItems = { MenuItem("Obtain Sword"), MenuItem("Obtain Armor"), MenuItem("Obtain Potion"), MenuItem("Back") };
+	Menu mainMenu("Obtain Item", menuItems);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+
+		system("cls");
+
+		cout << playerInfoHeader(player);
+
+		vector<string> headerBoardContent = { "", "Obtain Item", "" };
+
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(mainMenu);
+
+		int mode = menuManager.handleMenuSelection(mainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		//player.obtainSword();
+		goto render;
+	}
+	else if (choice == 1) {
+		//player.obtainArmor();
+		goto render;
+	}
+	else if (choice == 2) {
+		//player.obtainPotion();
+		goto render;
+	}
+	else {
+		gameScene(player);
+	}
+
+}
 /////////////////////////////////
 // Scenes
 /////////////////////////////////
