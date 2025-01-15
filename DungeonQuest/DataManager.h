@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
+#include <cstring>
+#include <fstream>
 #include <string>
+#include <iostream>
 using namespace std;
 
 class DataManager {
@@ -15,6 +18,7 @@ public:
 
 	void setDataRoot(string root);
 	string getDataRoot() const;
+	string getConfigsFolder() const;
 
 	void saveData(string filename);
 	void loadData(string filename);

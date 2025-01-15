@@ -1,6 +1,4 @@
 #include"DataManager.h"
-#include<fstream>
-#include <cstring> // Include this header for c_str() function
 
 DataManager::DataManager() {
 }
@@ -16,8 +14,13 @@ string DataManager::getDataRoot() const {
 	return data_root;
 }
 
+string DataManager::getConfigsFolder() const {
+	return configs;
+}
+
 void DataManager::saveData(string filename) {
 	ofstream file;
+	//cout << data_root + "\\" + filename << endl;
 	file.open(data_root + "\\" + filename);
 	for (int i = 0; i < keys.size(); i++) {
 		file << keys[i] << "=" << values[i] << endl;

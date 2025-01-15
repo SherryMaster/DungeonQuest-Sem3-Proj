@@ -1,8 +1,7 @@
 #pragma once
 #include<string>
 #include<vector>
-//#include"Player.h"
-using namespace std;
+#include"DataManager.h"
 
 class Inventory;
 class Item;
@@ -38,6 +37,8 @@ class Item {
 	string type;
 
 	bool stackable;
+
+	DataManager dm;
 
 public:
 	Item();

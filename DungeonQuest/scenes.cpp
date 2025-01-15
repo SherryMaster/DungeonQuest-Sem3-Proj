@@ -1,17 +1,6 @@
 #include"scenes.h"
-#include"DataManager.h"
-#include"fstream"
 
 void testing(Player player) {
-
-	cout << "Enter testing password: ";
-	string password;
-	getline(cin, password);
-
-	if (password != "test") {
-		cout << "Invalid password!";
-		return;
-	}
 
 	vector<MenuItem> main_menu_items = { MenuItem("Generate Swords"), MenuItem("Back")};
 	Menu MainMenu("Test", main_menu_items);
@@ -39,7 +28,7 @@ void testing(Player player) {
 
 	int choice = menuManager.getSelectionPos();
 	if (choice == 0) {
-		generate_swords();
+		generate_sword_scene(player);
 	}
 	if (choice == 1) {
 		mainScene(player);
@@ -50,94 +39,167 @@ void testing(Player player) {
 
 }
 
-void generate_swords() {
+void generate_sword_scene(Player player) {
 	DataManager dm;
 
-	dm.setDataRoot(dm.getDataRoot() + "\\Weapons\\Swords");
-	dm.loadData("swords_count.txt");
-	int total_swords = stoi(dm.getData("total"));
-	int common_swords = stoi(dm.getData("common"));
-	int uncommon_swords = stoi(dm.getData("uncommon"));
-	int rare_swords = stoi(dm.getData("rare"));
-	int epic_swords = stoi(dm.getData("epic"));
+	dm.setDataRoot(dm.getConfigsFolder() + "\\Inventory\\Swords");
 
-	int common_damage_range[2] = { 5, 10 };
-	int uncommon_damage_range[2] = { 10, 15 };
-	int rare_damage_range[2] = { 15, 20 };
-	int epic_damage_range[2] = { 20, 25 };
+	string name = "";
+	int damage = 0;
+	int durability = 0;
+	int rarity = 0;
 
-	int common_durability_range[2] = { 10, 25 };
-	int uncommon_durability_range[2] = { 20, 50 };
-	int rare_durability_range[2] = { 45, 100 };
-	int epic_durability_range[2] = { 100, 200 };
+	string rarity_text = "";
 
-	ifstream fin;
-	ofstream fout;
-	fin.open(dm.getDataRoot() + "\\" + "swords.txt");
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu rarityMenu("Rarity", rarity_menu);
+	MenuManager menuManager;
 
-	for (int i = 0; i < total_swords; i++) {
+	bool input_name = false;
+	bool input_damage = false;
+	bool input_durabilty = false;
+	bool input_rarity = false;
 
-		string sword_name;
-		int sword_damage_start;
-		int sword_damage_end;
-		int sword_durabilty_start;
-		int sword_durabilty_end;
-		string sword_type;
+	// render
+	while (true) {
+	render:
+		system("cls");
 
-		fin >> sword_name;
+		vector<string> headerBoardContent = { "", "Enter details for sword", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
 
-		if (common_swords > 0) {
-			common_swords--;
-			sword_type = "common";
-			sword_damage_start = common_damage_range[0];
-			sword_damage_end = common_damage_range[1];
+		if (input_name && input_damage && input_durabilty && input_rarity) {
+			vector<MenuItem> ok_menu_items = { MenuItem("Yes save it!"), MenuItem("No I want to change somthing!") };
 
-			//sword_durabilty = rand() % (common_durability_range[1] - common_durability_range[0] + 1) + common_durability_range[0];
-			sword_durabilty_start = common_durability_range[0];
-			sword_durabilty_end = common_durability_range[1];
+			cout << "Sword Name: " << name << endl;
+			cout << "Damage: " << damage << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Rarity: " << rarity_text << endl << endl;
+			cout << "Is this Info OK or do you want to edit?" << endl << endl;
+
+			Menu ok_menu("Confirm", ok_menu_items);
+			menuManager.displayMenu(ok_menu);
+
+			int mode = menuManager.handleMenuSelection(ok_menu);
+
+			if (mode == 5) { // Enter Press
+				int choice = menuManager.getSelectionPos();
+				if (choice == 0) { // Yes, Save It!
+					dm.addData("Name", name);
+					dm.addData("Damage", to_string(damage));
+					dm.addData("Durability", to_string(durability));
+					dm.addData("Rarity", to_string(rarity));
+					
+
+
+					//goto render;
+					break;
+				}
+				else if (choice == 1) { // No I want to change somthing!
+					menuManager.reset();
+
+					while (true) {
+					choice_render:
+						system("cls");
+
+						vector<string> headerBoardContent = { "", "Enter details for sword", "" };
+						cout << headerBoard(headerBoardContent, 25, 5);
+						vector<MenuItem> choices = { MenuItem("Name"), MenuItem("Damage"), MenuItem("Durability"), MenuItem("Rarity") };
+
+						Menu choiceMenu("Edit", choices);
+						menuManager.displayMenu(choiceMenu);
+						int mode = menuManager.handleMenuSelection(choiceMenu);
+
+						if (mode == 5) { // Enter Press
+							int choice = menuManager.getSelectionPos();
+
+							if (choice == 0) { // Name
+								cout << "Enter new name: ";
+								getline(cin, name);
+							}
+							else if (choice == 1) { // damage
+								cout << "Enter new damage: ";
+								cin >> damage;
+							}
+							else if (choice == 2) { // durability
+								cout << "Enter new durability: ";
+								cin >> durability;
+							}
+							else if (choice == 3) { // rarity
+								menuManager.reset();
+								while (true) {
+									system("cls");
+
+									vector<string> headerBoardContent = { "", "Enter details for sword", "" };
+									cout << headerBoard(headerBoardContent, 25, 5);
+
+									cout << endl << endl;
+									cout << "Select New Rarity: " << endl << endl;
+
+									menuManager.displayMenu(rarityMenu);
+									int mode = menuManager.handleMenuSelection(rarityMenu);
+									if (mode == 5) { // Enter Pressed
+										rarity = menuManager.getSelectionPos() + 1;
+										rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+										menuManager.reset();
+										break;
+									}
+								}
+							}
+
+							goto render;
+						}
+					}
+				}
+			}
 		}
-		else if (uncommon_swords > 0) {
-			uncommon_swords--;
-			sword_type = "uncommon";
-			sword_damage_start = uncommon_damage_range[0];
-			sword_damage_end = uncommon_damage_range[1];
 
-			//sword_durabilty = rand() % (uncommon_durability_range[1] - uncommon_durability_range[0] + 1) + uncommon_durability_range[0];
-			sword_durabilty_start = uncommon_durability_range[0];
-			sword_durabilty_end = uncommon_durability_range[1];
+		if (!input_name) {
+			cout << "Enter Sword name: ";
+			getline(cin, name);
+			input_name = true;
 		}
-		else if (rare_swords > 0) {
-			rare_swords--;
-			sword_type = "rare";
-			sword_damage_start = rare_damage_range[0];
-			sword_damage_end = rare_damage_range[1];
-
-			//sword_durabilty = rand() % (rare_durability_range[1] - rare_durability_range[0] + 1) + rare_durability_range[0];
-			sword_durabilty_start = rare_durability_range[0];
-			sword_durabilty_end = rare_durability_range[1];
+		else if (!input_damage) {
+			cout << "Sword Name: " << name << endl;
+			cout << "Enter Damage: ";
+			cin >> damage;
+			input_damage = true;
 		}
-		else if (epic_swords > 0) {
-			epic_swords--;
-			sword_type = "epic";
-			sword_damage_start = epic_damage_range[0];
-			sword_damage_end = epic_damage_range[1];
-
-			//sword_durabilty = rand() % (epic_durability_range[1] - epic_durability_range[0] + 1) + epic_durability_range[0];
-			sword_durabilty_start = epic_durability_range[0];
-			sword_durabilty_end = epic_durability_range[1];
+		else if (!input_durabilty) {
+			cout << "Sword Name: " << name << endl;
+			cout << "Damage: " << damage << endl;
+			cout << "Enter Durability: ";
+			cin >> durability;
+			input_durabilty = true;
 		}
-
-
-		fout.open(dm.getDataRoot() + "\\" + to_string(i + 1) + " " + sword_name + ".txt");
-		fout << "name=" << sword_name << endl;
-		fout << "rarity=" << sword_type << endl;
-		fout << "damage_start=" << sword_damage_start << endl;
-		fout << "damage_end=" << sword_damage_end << endl;
-		fout << "durability_start=" << sword_durabilty_start << endl;
-		fout << "durability_end=" << sword_durabilty_end << endl;
-		fout.close();
+		else if (!input_rarity) {
+			cout << "Sword Name: " << name << endl;
+			cout << "Damage: " << damage << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Select Rarity: " << endl;
+			menuManager.displayMenu(rarityMenu);
+			int mode = menuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = menuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				menuManager.reset();
+				input_rarity = true;
+			}
+		}
 	}
-	fin.close();
+	// end of render
+
+	cout << "Name of sword saved as: " << dm.getData("Name") << endl;
+	cout << "Damage of " << dm.getData("Name") << " Saved as: " << dm.getData("Damage") << endl;
+	cout << "Durability of " << dm.getData("Name") << " Saved as: " << dm.getData("Durability") << endl;
+	cout << "Rarity of " << dm.getData("Name") << " Saved as: " << dm.getData("Rarity") << endl;
+
+	dm.saveData(name + ".txt");
+
+	cout << endl << "Press any key to continue...";
+	_getch();
+
+	testing(player);
 }
 
 void item_obtain_scene(Player player) {
@@ -189,6 +251,7 @@ void item_obtain_scene(Player player) {
 	}
 
 }
+
 /////////////////////////////////
 // Scenes
 /////////////////////////////////
@@ -232,7 +295,18 @@ void mainScene(Player player) {
 		return;
 	}
 	else if (choice == 2) {
-		testing(player);
+		cout << "Enter testing password: ";
+		string password;
+		getline(cin, password);
+
+		if (password != "test") {
+			cout << "Invalid password!";
+			_getch();
+			goto render;
+		}
+		else {
+			testing(player);
+		}
 		//goto render;
 	}
 }
