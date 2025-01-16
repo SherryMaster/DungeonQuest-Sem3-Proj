@@ -11,10 +11,11 @@
 using namespace std;
 
 void testing(Player player); // For development purposes only.
-void config_generation_scene(Player player); // Where the Configs for the items and game objects are generated
-void generate_sword_scene(Player player); // Generates Sword Files uses the configs in the folder. Chosen in config_generation_scene.
-void generate_armor_scene(Player player); // Generates Armor Files using the config in the folder. Chose in config_generation_scene.
-void generate_potion_scene(Player player); // Generates Potion Files using the config in the folder. Chose in config_generation_scene.
+void config_managment_scene(Player player); // Where the Configs for the items and game objects are generated
+void sword_management_scene(Player player); // Where developer can edit the sword files with ease! Chosen in config_managment_scene.
+void generate_sword_scene(Player player); // Generates Sword Files uses the configs in the folder. Chosen in config_managment_scene.
+void generate_armor_scene(Player player); // Generates Armor Files using the config in the folder. Chose in config_managment_scene.
+void generate_potion_scene(Player player); // Generates Potion Files using the config in the folder. Chose in config_managment_scene.
 
 void item_obtain_scene(Player player); // The scene for testing purpose where the player can obtain items. chosen in testing.
 

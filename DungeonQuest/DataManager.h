@@ -10,6 +10,8 @@ class DataManager {
 	vector<string> keys;
 	vector<string> values;
 
+	vector<string> items; // for array of items in a file whose first line is the number of items.
+
 	string data_root = "Data";
 	string configs = data_root + "\\Configs";
 public:
@@ -22,6 +24,8 @@ public:
 
 	void saveData(string filename);
 	void loadData(string filename);
+	void saveItemList(string filename);
+	void loadItemList(string filename);
 	void deleteData(string filename);
 
 	bool fileExists(string filename, bool root_mode = true) const;
@@ -32,4 +36,8 @@ public:
 	vector<string> getKeys();
 	vector<string> getValues();
 	vector<string> getKeysAndValues();
+
+	void addItem(string item);
+	bool itemExist(string item);
+
 };

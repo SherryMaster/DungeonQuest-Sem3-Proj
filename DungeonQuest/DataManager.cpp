@@ -48,6 +48,35 @@ void DataManager::loadData(string filename) {
 	file.close();
 }
 
+void DataManager::saveItemList(string filename) {
+	ofstream file;
+	file.open(data_root + "\\" + filename);
+	file << items.size() << endl;
+	for (int i = 0; i < items.size(); i++) {
+		file << items[i] << endl;
+	}
+}
+
+void DataManager::loadItemList(string filename) {
+	if (!fileExists(filename)) {
+		return;
+	}
+
+	ifstream file;
+	file.open(data_root + "\\" + filename);
+
+	string line;
+	getline(file, line);
+
+	int total_items = stoi(line);
+
+	items.clear();
+	for (int i = 0; i < total_items; i++) {
+		getline(file, line);
+		items.push_back(line);
+	}
+}
+
 void DataManager::deleteData(string filename) {
 	if (fileExists(filename)) {
 		remove((data_root + "\\" + filename).c_str());
@@ -104,4 +133,18 @@ vector<string> DataManager::getKeysAndValues() {
 		result.push_back(keys[i] + "=" + values[i]);
 	}
 	return result;
+}
+
+void DataManager::addItem(string item) {
+	this->items.push_back(item);
+}
+
+bool DataManager::itemExist(string item) {
+	for (int i = 0; i < this->items.size(); i++) {
+		if (this->items[i] == item) {
+			return true;
+		}
+	}
+
+	return false;
 }

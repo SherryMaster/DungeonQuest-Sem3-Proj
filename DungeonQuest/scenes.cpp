@@ -2,7 +2,7 @@
 
 void testing(Player player) {
 
-	vector<MenuItem> main_menu_items = { MenuItem("Generate Swords"), MenuItem("Back")};
+	vector<MenuItem> main_menu_items = { MenuItem("Config Management"), MenuItem("Back")};
 	Menu MainMenu("Test", main_menu_items);
 	MenuManager menuManager;
 
@@ -28,7 +28,7 @@ void testing(Player player) {
 
 	int choice = menuManager.getSelectionPos();
 	if (choice == 0) {
-		generate_sword_scene(player);
+		config_managment_scene(player);
 	}
 	if (choice == 1) {
 		mainScene(player);
@@ -39,10 +39,49 @@ void testing(Player player) {
 
 }
 
-void generate_sword_scene(Player player) {
-	DataManager dm;
+void config_managment_scene(Player player) {
+	vector<MenuItem> main_menu_items = { MenuItem("Sword Management"), MenuItem("Back") };
+	Menu MainMenu("Test", main_menu_items);
+	MenuManager menuManager;
 
-	dm.setDataRoot(dm.getConfigsFolder() + "\\Inventory\\Swords");
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Config", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(MainMenu);
+
+		int mode = menuManager.handleMenuSelection(MainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		config_managment_scene(player);
+	}
+	if (choice == 1) {
+		mainScene(player);
+	}
+	else {
+		return;
+	}
+}
+
+void generate_sword_scene(Player player) {
+	DataManager swords_dm;
+	
+	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+
+	swords_dm.loadItemList("swords.txt");
 
 	string name = "";
 	int damage = 0;
@@ -60,6 +99,7 @@ void generate_sword_scene(Player player) {
 	bool input_durabilty = false;
 	bool input_rarity = false;
 
+	cin.ignore();
 	// render
 	while (true) {
 	render:
@@ -85,10 +125,10 @@ void generate_sword_scene(Player player) {
 			if (mode == 5) { // Enter Press
 				int choice = menuManager.getSelectionPos();
 				if (choice == 0) { // Yes, Save It!
-					dm.addData("Name", name);
-					dm.addData("Damage", to_string(damage));
-					dm.addData("Durability", to_string(durability));
-					dm.addData("Rarity", to_string(rarity));
+					swords_dm.addData("Name", name);
+					swords_dm.addData("Damage", to_string(damage));
+					swords_dm.addData("Durability", to_string(durability));
+					swords_dm.addData("Rarity", to_string(rarity));
 					
 
 
@@ -157,6 +197,16 @@ void generate_sword_scene(Player player) {
 		if (!input_name) {
 			cout << "Enter Sword name: ";
 			getline(cin, name);
+			if (swords_dm.fileExists(name + ".txt")) {
+				swords_dm.loadData(name + ".txt");
+				damage = stoi(swords_dm.getData("Damage"));
+				durability = stoi(swords_dm.getData("Durability"));
+				rarity = stoi(swords_dm.getData("Rarity"));
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				input_damage = true;
+				input_durabilty = true;
+				input_rarity = true;
+			}
 			input_name = true;
 		}
 		else if (!input_damage) {
@@ -189,12 +239,14 @@ void generate_sword_scene(Player player) {
 	}
 	// end of render
 
-	cout << "Name of sword saved as: " << dm.getData("Name") << endl;
-	cout << "Damage of " << dm.getData("Name") << " Saved as: " << dm.getData("Damage") << endl;
-	cout << "Durability of " << dm.getData("Name") << " Saved as: " << dm.getData("Durability") << endl;
-	cout << "Rarity of " << dm.getData("Name") << " Saved as: " << dm.getData("Rarity") << endl;
+	cout << "Name of sword saved as: " << swords_dm.getData("Name") << endl;
+	cout << "Damage of " << swords_dm.getData("Name") << " Saved as: " << swords_dm.getData("Damage") << endl;
+	cout << "Durability of " << swords_dm.getData("Name") << " Saved as: " << swords_dm.getData("Durability") << endl;
+	cout << "Rarity of " << swords_dm.getData("Name") << " Saved as: " << swords_dm.getData("Rarity") << endl;
 
-	dm.saveData(name + ".txt");
+	swords_dm.saveData(name + ".txt");
+	swords_dm.addItem(name);
+	swords_dm.saveItemList("swords.txt");
 
 	cout << endl << "Press any key to continue...";
 	_getch();
