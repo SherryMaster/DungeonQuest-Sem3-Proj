@@ -12,7 +12,10 @@ using namespace std;
 
 void testing(Player player); // For development purposes only.
 void config_managment_scene(Player player); // Where the Configs for the items and game objects are generated
-void sword_management_scene(Player player); // Where developer can edit the sword files with ease! Chosen in config_managment_scene.
+void sword_management_scene(Player player); // Where developer has options to manage swords data.
+void swords_list_scene(Player player); // Where developer can view and choose to edit the sword files with ease! Chosen in sword_management_scene.
+void selected_sword_scene(Player player, string sword_name); // Where the developer can manage the selected sword file. Chosen in swords_list_scene.
+void sword_edit_scene(Player player, string sword_name); // Where developer can edit the sword files. Chosen in selected_sword_scene.
 void generate_sword_scene(Player player); // Generates Sword Files uses the configs in the folder. Chosen in config_managment_scene.
 void generate_armor_scene(Player player); // Generates Armor Files using the config in the folder. Chose in config_managment_scene.
 void generate_potion_scene(Player player); // Generates Potion Files using the config in the folder. Chose in config_managment_scene.

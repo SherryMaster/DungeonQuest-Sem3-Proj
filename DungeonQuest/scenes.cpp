@@ -30,7 +30,7 @@ void testing(Player player) {
 	if (choice == 0) {
 		config_managment_scene(player);
 	}
-	if (choice == 1) {
+	else if (choice == 1) {
 		mainScene(player);
 	}
 	else {
@@ -39,9 +39,10 @@ void testing(Player player) {
 
 }
 
+
 void config_managment_scene(Player player) {
-	vector<MenuItem> main_menu_items = { MenuItem("Sword Management"), MenuItem("Back") };
-	Menu MainMenu("Test", main_menu_items);
+	vector<MenuItem> config_items = { MenuItem("Sword Management"), MenuItem("Back") };
+	Menu ConfigMenu("Config", config_items);
 	MenuManager menuManager;
 
 	// Render
@@ -51,6 +52,43 @@ void config_managment_scene(Player player) {
 
 		vector<string> headerBoardContent;
 		headerBoardContent = { "", "Config", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(ConfigMenu);
+
+		int mode = menuManager.handleMenuSelection(ConfigMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		sword_management_scene(player);
+	}
+	else if (choice == 1) {
+		testing(player);
+	}
+	else {
+		return;
+	}
+}
+
+void sword_management_scene(Player player) {
+	vector<MenuItem> main_menu_items = { MenuItem("Swords List"), MenuItem("Generate Swords"), MenuItem("Back")};
+	Menu MainMenu("Test", main_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Sword Management", "" };
 		cout << headerBoard(headerBoardContent, 30, 5);
 
 		cout << set_space_V(3);
@@ -66,14 +104,197 @@ void config_managment_scene(Player player) {
 
 	int choice = menuManager.getSelectionPos();
 	if (choice == 0) {
-		config_managment_scene(player);
+		swords_list_scene(player);
 	}
-	if (choice == 1) {
-		mainScene(player);
+	else if (choice == 1) {
+		generate_sword_scene(player);
+	}
+	else if (choice == 2) {
+		config_managment_scene(player);
 	}
 	else {
 		return;
 	}
+}
+
+void swords_list_scene(Player player) {
+	DataManager swords_dm;
+	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+	vector<MenuItem> sword_list = {};
+	swords_dm.loadItemList("swords.txt");
+
+	for (int i = 0; i < swords_dm.getItems().size(); i++) {
+		sword_list.push_back(MenuItem(swords_dm.getItems()[i]));
+	}
+	sword_list.push_back(MenuItem("Back"));
+
+	Menu swordMenu("Swords", sword_list);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Edit Swords", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(swordMenu);
+
+		int mode = menuManager.handleMenuSelection(swordMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == sword_list.size() - 1) {
+		sword_management_scene(player);
+	}
+	else {
+		selected_sword_scene(player, sword_list[choice].getItemName());
+	}
+}
+
+void selected_sword_scene(Player player, string sword_name) {
+	vector<MenuItem> sword_menu_items = { MenuItem("Edit Sword"), MenuItem("Delete Sword"), MenuItem("Back") };
+	Menu SwordMenu("Sword Menu", sword_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", sword_name, "What do you want to do with this sword?" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(SwordMenu);
+
+		int mode = menuManager.handleMenuSelection(SwordMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == 0) {
+		sword_edit_scene(player, sword_name);
+	}
+	else if (choice == 1) {
+
+	}
+	else if (choice == 2) {
+
+	}
+	else {
+		return;
+	}
+}
+
+void sword_edit_scene(Player player, string sword_name) {
+	DataManager swords_dm;
+	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+
+	swords_dm.loadData(sword_name + ".txt");
+	string name = swords_dm.getData("Name");
+	int damage = stoi(swords_dm.getData("Damage"));
+	int durability = stoi(swords_dm.getData("Durability"));
+	int rarity = stoi(swords_dm.getData("Rarity"));
+
+	string rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+
+	vector<MenuItem> edit_options = { MenuItem("Name"), MenuItem("Damage"), MenuItem("Durability"), MenuItem("Rarity"), MenuItem("Exit")};
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu  editMenu("Edit", edit_options), rarityMenu("Rarity", rarity_menu);
+	MenuManager editMenuManager, rarityMenuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Edit Sword", sword_name, "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << "Name: " << name << endl;
+		cout << "Damage: " << damage << endl;
+		cout << "Durability: " << durability << endl;
+		cout << "Rarity: " << rarity_text << endl;
+
+		cout << set_space_V(3);
+
+		cout << "What do you want to edit?" << endl << endl;
+		editMenuManager.displayMenu(editMenu);
+		int mode = editMenuManager.handleMenuSelection(editMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = editMenuManager.getSelectionPos();
+	if (choice == 0) { // name edit
+		cout << "Enter new name: ";
+		getline(cin, name);
+		goto render;
+	}
+	else if (choice == 1) { // damage edit
+		cout << "Enter new damage: ";
+		cin >> damage;
+		goto render;
+	}
+	else if (choice == 2) { // durability edit
+		cout << "Enter new durability: ";
+		cin >> durability;
+		goto render;
+	}
+	else if (choice == 3) { // rarity edit
+		while (true) {
+		rarity_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Edit Sword", sword_name, "" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << "Name: " << name << endl;
+			cout << "Damage: " << damage << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Rarity: " << rarity_text << endl;
+
+			cout << set_space_V(3);
+			cout << "Select new rarity: ";
+			rarityMenuManager.displayMenu(rarityMenu);
+			int mode = rarityMenuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = rarityMenuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				goto render;
+			}
+		}
+	}
+	else {
+		swords_dm.addData("Name", name);
+		swords_dm.addData("Damage", to_string(damage));
+		swords_dm.addData("Durability", to_string(durability));
+		swords_dm.addData("Rarity", to_string(rarity));
+
+		swords_dm.saveData(sword_name + ".txt");
+
+		swords_list_scene(player);
+	}
+
 }
 
 void generate_sword_scene(Player player) {
@@ -322,7 +543,7 @@ void mainScene(Player player) {
 		system("cls");
 
 		vector<string> headerBoardContent;
-		headerBoardContent = { "", "Welcome to", "Dungeon Quest", "" };
+		headerBoardContent = { "", "Welocome To", "Dungeon Quest", "" };
 		cout << headerBoard(headerBoardContent, 30, 5);
 
 		headerBoardContent = { "", "Here you have to kill enemies collect Loot and build yourself Stronger!", "" };

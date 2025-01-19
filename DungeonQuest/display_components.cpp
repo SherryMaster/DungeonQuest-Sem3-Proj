@@ -51,7 +51,7 @@ string headerBoard(vector<string> inner_content, int space_from_left, int space_
     for (int i = 0; i < inner_content.size(); i++) {
         string word = inner_content[i];
 
-        int current_size_diff = word.length() - longest_length;
+        int current_size_diff = word.length() - max(min_size, longest_length);
 
         bool even_diff = current_size_diff % 2 == 0;
 
@@ -76,10 +76,7 @@ string headerBoard(vector<string> inner_content, int space_from_left, int space_
             }
         }
         else {
-            if (current_size_diff > 0) {
-                content.append(set_space_H(space_from_left) + "*   " + word + "   *" + "\n");
-            }
-            else if (current_size_diff < 0) {
+            if (current_size_diff < 0) {
                 content.append(set_space_H(space_from_left) + "*   " + set_space_H(left_spaces) + word + set_space_H(right_spaces) + "   *" + "\n");
             }
             else {

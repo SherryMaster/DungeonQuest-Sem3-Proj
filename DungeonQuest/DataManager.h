@@ -39,5 +39,6 @@ public:
 
 	void addItem(string item);
 	bool itemExist(string item);
+	vector<string> getItems();
 
 };

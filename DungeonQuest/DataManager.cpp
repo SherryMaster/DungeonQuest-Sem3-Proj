@@ -101,8 +101,23 @@ bool DataManager::fileExists(string filename, bool root_mode) const {
 }
 
 void DataManager::addData(string key, string value) {
-	keys.push_back(key);
-	values.push_back(value);
+	bool key_exist = false;
+	int index = -1;
+	for (int i = 0; i < keys.size(); i++) {
+		if (keys[i] == key) {
+			values[i] = value;
+			key_exist = true;
+			index = i;
+			break;
+		}
+	}
+	if (!key_exist) {
+		keys.push_back(key);
+		values.push_back(value);
+	}
+	else {
+		values[index] = value;
+	}
 }
 
 string DataManager::getData(string key) {
@@ -147,4 +162,8 @@ bool DataManager::itemExist(string item) {
 	}
 
 	return false;
+}
+
+vector<string> DataManager::getItems() {
+	return this->items;
 }
