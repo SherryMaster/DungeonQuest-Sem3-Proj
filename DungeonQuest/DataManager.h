@@ -38,6 +38,7 @@ public:
 	vector<string> getKeysAndValues();
 
 	void addItem(string item);
+	void removeItem(string item);
 	bool itemExist(string item);
 	vector<string> getItems();
 

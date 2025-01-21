@@ -177,16 +177,16 @@ void Player::savePlayerData() {
 	for (int i = 0; i < personal_stats_keys.size(); i++) {
 		dataManager.addData(personal_stats_keys[i], personal_stats_values[i]);
 	}
-	dataManager.saveData(player_data_path + "personal stats.txt");
+	dataManager.saveData(player_data_path + "\\player info.txt");
 }
 
 void Player::loadPlayerData() {
-	if (!dataManager.fileExists(player_data_path)) {
+	if (!dataManager.fileExists(player_data_path + "\\player info.txt")) {
 		savePlayerData();
 		return;
 	}
 	
-	dataManager.loadData(player_data_path + "personal stats.txt");
+	dataManager.loadData(player_data_path + "\\player info.txt");
 
 	vector<string> personal_stats_keys = dataManager.getKeys();
 	vector<string> personal_stats_values = dataManager.getValues();
@@ -223,5 +223,5 @@ void Player::loadPlayerData() {
 }
 
 void Player::deletePlayerData() {
-	dataManager.deleteData(player_data_path);
+	dataManager.deleteData(player_data_path + "\\player info.txt");
 }

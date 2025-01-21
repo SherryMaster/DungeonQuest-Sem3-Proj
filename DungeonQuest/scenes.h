@@ -12,13 +12,21 @@ using namespace std;
 
 void testing(Player player); // For development purposes only.
 void config_managment_scene(Player player); // Where the Configs for the items and game objects are generated
-void sword_management_scene(Player player); // Where developer has options to manage swords data.
-void swords_list_scene(Player player); // Where developer can view and choose to edit the sword files with ease! Chosen in sword_management_scene.
-void selected_sword_scene(Player player, string sword_name); // Where the developer can manage the selected sword file. Chosen in swords_list_scene.
-void sword_edit_scene(Player player, string sword_name); // Where developer can edit the sword files. Chosen in selected_sword_scene.
-void generate_sword_scene(Player player); // Generates Sword Files uses the configs in the folder. Chosen in config_managment_scene.
-void generate_armor_scene(Player player); // Generates Armor Files using the config in the folder. Chose in config_managment_scene.
-void generate_potion_scene(Player player); // Generates Potion Files using the config in the folder. Chose in config_managment_scene.
+	void sword_management_scene(Player player); // Where developer has options to manage swords data.
+		void swords_list_scene(Player player); // Where developer can view and choose to edit the sword files with ease! Chosen in sword_management_scene.
+		void selected_sword_scene(Player player, string sword_name); // Where the developer can manage the selected sword file. Chosen in swords_list_scene.
+		void sword_edit_scene(Player player, string sword_name); // Where developer can edit the sword files. Chosen in selected_sword_scene.
+		void generate_sword_scene(Player player); // Generates Sword Files uses the configs in the folder. Chosen in config_managment_scene.
+	void armor_management_scene(Player player); // Where developer has options to manage armor data.
+		void armors_list_scene(Player player); // Where developer can view and choose to edit the armor files with ease! Chosen in armor_management_scene.
+		void selected_armor_scene(Player player, string armor_name); // Where the developer can manage the selected armor file. Chosen in armors_list_scene.
+		void armor_edit_scene(Player player, string armor_name); // Where developer can edit the armor files. Chosen in selected_armor_scene.
+		void generate_armor_scene(Player player); // Generates Armor Files using the config in the folder. Chose in config_managment_scene.
+	void potion_management_scene(Player player); // Where developer has options to manage potion data.
+		void potions_list_scene(Player player); // Where developer can view and choose to edit the potion files with ease! Chosen in potion_management_scene.
+		void selected_potion_scene(Player player, string potion_name); // Where the developer can manage the selected potion file. Chosen in potions_list_scene.
+		void potion_edit_scene(Player player, string potion_name); // Where developer can edit the potion files. Chosen in selected_potion_scene.
+		void generate_potion_scene(Player player); // Generates Potion Files using the config in the folder. Chose in config_managment_scene.
 
 void item_obtain_scene(Player player); // The scene for testing purpose where the player can obtain items. chosen in testing.
 

@@ -90,6 +90,7 @@ bool DataManager::fileExists(string filename, bool root_mode) const {
 	}
 	else {
 		file.open(data_root + "\\" + filename);
+		//cout << data_root + "\\" + filename << endl;
 	}
 
 	if (file.is_open()) {
@@ -151,7 +152,26 @@ vector<string> DataManager::getKeysAndValues() {
 }
 
 void DataManager::addItem(string item) {
-	this->items.push_back(item);
+	bool item_exist = false;
+	for (int i = 0; i < this->items.size(); i++) {
+		if (this->items[i] == item) {
+			item_exist = true;
+			break;
+		}
+	}
+	
+	if (!item_exist) {
+		this->items.push_back(item);
+	}
+}
+
+void DataManager::removeItem(string item) {
+	for (int i = 0; i < this->items.size(); i++) {
+		if (this->items[i] == item) {
+			this->items.erase(this->items.begin() + i);
+			break;
+		}
+	}
 }
 
 bool DataManager::itemExist(string item) {

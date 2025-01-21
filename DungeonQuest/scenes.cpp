@@ -41,7 +41,7 @@ void testing(Player player) {
 
 
 void config_managment_scene(Player player) {
-	vector<MenuItem> config_items = { MenuItem("Sword Management"), MenuItem("Back") };
+	vector<MenuItem> config_items = { MenuItem("Sword Management"), MenuItem("Armor Management"), MenuItem("Potion Management"), MenuItem("Back") };
 	Menu ConfigMenu("Config", config_items);
 	MenuManager menuManager;
 
@@ -70,6 +70,12 @@ void config_managment_scene(Player player) {
 		sword_management_scene(player);
 	}
 	else if (choice == 1) {
+		armor_management_scene(player);
+	}
+	else if (choice == 2) {
+		potion_management_scene(player);
+	}
+	else if (choice == 3) {
 		testing(player);
 	}
 	else {
@@ -162,7 +168,9 @@ void swords_list_scene(Player player) {
 
 void selected_sword_scene(Player player, string sword_name) {
 	vector<MenuItem> sword_menu_items = { MenuItem("Edit Sword"), MenuItem("Delete Sword"), MenuItem("Back") };
+	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
 	Menu SwordMenu("Sword Menu", sword_menu_items);
+	Menu YesNoMenu("Yes/No", yes_no_menu_items);
 	MenuManager menuManager;
 
 	// Render
@@ -190,10 +198,43 @@ void selected_sword_scene(Player player, string sword_name) {
 		sword_edit_scene(player, sword_name);
 	}
 	else if (choice == 1) {
+		menuManager.reset();
+		while (true) {
+		confirm_delete_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Delete Sword", sword_name, "Are you sure you want to delete this sword?" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << set_space_V(3);
+			menuManager.displayMenu(YesNoMenu);
+
+			int mode = menuManager.handleMenuSelection(YesNoMenu);
+
+			if (mode == 5) { // Enter Pressed
+				break;
+			}
+		}
+		// End of Render
+
+		int choice = menuManager.getSelectionPos();
+		if (choice == 0) {
+			DataManager swords_dm;
+			swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+			swords_dm.loadItemList("swords.txt");
+			swords_dm.deleteData(sword_name + ".txt");
+			swords_dm.removeItem(sword_name);
+			swords_dm.saveItemList("swords.txt");
+			swords_list_scene(player);
+		}
+		else {
+			goto confirm_delete_render;
+		}
 
 	}
 	else if (choice == 2) {
-
+		swords_list_scene(player);
 	}
 	else {
 		return;
@@ -274,7 +315,7 @@ void sword_edit_scene(Player player, string sword_name) {
 			cout << "Rarity: " << rarity_text << endl;
 
 			cout << set_space_V(3);
-			cout << "Select new rarity: ";
+			cout << "Select new rarity: " << endl << endl;
 			rarityMenuManager.displayMenu(rarityMenu);
 			int mode = rarityMenuManager.handleMenuSelection(rarityMenu);
 			if (mode == 5) { // Enter Pressed
@@ -475,6 +516,839 @@ void generate_sword_scene(Player player) {
 	testing(player);
 }
 
+void armor_management_scene(Player player) {
+	vector<MenuItem> main_menu_items = { MenuItem("Armors List"), MenuItem("Generate Armors"), MenuItem("Back") };
+	Menu MainMenu("Test", main_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Armor Management", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(MainMenu);
+
+		int mode = menuManager.handleMenuSelection(MainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		armors_list_scene(player);
+	}
+	else if (choice == 1) {
+		generate_armor_scene(player);
+	}
+	else if (choice == 2) {
+		config_managment_scene(player);
+	}
+	else {
+		return;
+	}
+}
+
+void armors_list_scene(Player player) {
+	DataManager armors_dm;
+	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+	vector<MenuItem> armor_list = {};
+	armors_dm.loadItemList("armors.txt");
+
+	for (int i = 0; i < armors_dm.getItems().size(); i++) {
+		armor_list.push_back(MenuItem(armors_dm.getItems()[i]));
+	}
+	armor_list.push_back(MenuItem("Back"));
+
+	Menu armorMenu("Armors", armor_list);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Edit Armors", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(armorMenu);
+
+		int mode = menuManager.handleMenuSelection(armorMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == armor_list.size() - 1) {
+		armor_management_scene(player);
+	}
+	else {
+		selected_armor_scene(player, armor_list[choice].getItemName());
+	}
+}
+
+void selected_armor_scene(Player player, string armor_name) {
+	vector<MenuItem> armor_menu_items = { MenuItem("Edit Armor"), MenuItem("Delete Armor"), MenuItem("Back") };
+	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
+	Menu ArmorMenu("Armor Menu", armor_menu_items);
+	Menu YesNoMenu("Yes/No", yes_no_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", armor_name, "What do you want to do with this armor?" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(ArmorMenu);
+
+		int mode = menuManager.handleMenuSelection(ArmorMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == 0) {
+		armor_edit_scene(player, armor_name);
+	}
+	else if (choice == 1) {
+		menuManager.reset();
+		while (true) {
+		confirm_delete_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Delete Armor", armor_name, "Are you sure you want to delete this armor?" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << set_space_V(3);
+			menuManager.displayMenu(YesNoMenu);
+
+			int mode = menuManager.handleMenuSelection(YesNoMenu);
+
+			if (mode == 5) { // Enter Pressed
+				break;
+			}
+		}
+		// End of Render
+
+		int choice = menuManager.getSelectionPos();
+		if (choice == 0) {
+			DataManager armors_dm;
+			armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+			armors_dm.loadItemList("armors.txt");
+			armors_dm.deleteData(armor_name + ".txt");
+			armors_dm.removeItem(armor_name);
+			armors_dm.saveItemList("armors.txt");
+			armors_list_scene(player);
+		}
+		else {
+			goto confirm_delete_render;
+		}
+
+	}
+	else if (choice == 2) {
+		armors_list_scene(player);
+	}
+	else {
+		return;
+	}
+}
+
+void armor_edit_scene(Player player, string armor_name) {
+	DataManager armors_dm;
+	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+
+	armors_dm.loadData(armor_name + ".txt");
+	string name = armors_dm.getData("Name");
+	int defense = stoi(armors_dm.getData("Defense"));
+	int durability = stoi(armors_dm.getData("Durability"));
+	int rarity = stoi(armors_dm.getData("Rarity"));
+
+	string rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+
+	vector<MenuItem> edit_options = { MenuItem("Name"), MenuItem("Defense"), MenuItem("Durability"), MenuItem("Rarity"), MenuItem("Exit") };
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu  editMenu("Edit", edit_options), rarityMenu("Rarity", rarity_menu);
+	MenuManager editMenuManager, rarityMenuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Edit Armor", armor_name, "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << "Name: " << name << endl;
+		cout << "Defense: " << defense << endl;
+		cout << "Durability: " << durability << endl;
+		cout << "Rarity: " << rarity_text << endl;
+
+		cout << set_space_V(3);
+
+		cout << "What do you want to edit?" << endl << endl;
+		editMenuManager.displayMenu(editMenu);
+		int mode = editMenuManager.handleMenuSelection(editMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = editMenuManager.getSelectionPos();
+	if (choice == 0) { // name edit
+		cout << "Enter new name: ";
+		getline(cin, name);
+		goto render;
+	}
+	else if (choice == 1) { // defense edit
+		cout << "Enter new defense: ";
+		cin >> defense;
+		goto render;
+	}
+	else if (choice == 2) { // durability edit
+		cout << "Enter new durability: ";
+		cin >> durability;
+		goto render;
+	}
+	else if (choice == 3) { // rarity edit
+		while (true) {
+		rarity_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Edit Armor", armor_name, "" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << "Name: " << name << endl;
+			cout << "Defense: " << defense << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Rarity: " << rarity_text << endl;
+
+			cout << set_space_V(3);
+			cout << "Select new rarity: " << endl << endl;
+			rarityMenuManager.displayMenu(rarityMenu);
+			int mode = rarityMenuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = rarityMenuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				goto render;
+			}
+		}
+	}
+	else {
+		armors_dm.addData("Name", name);
+		armors_dm.addData("Defense", to_string(defense));
+		armors_dm.addData("Durability", to_string(durability));
+		armors_dm.addData("Rarity", to_string(rarity));
+
+		armors_dm.saveData(armor_name + ".txt");
+
+		armors_list_scene(player);
+	}
+
+}
+
+void generate_armor_scene(Player player) {
+	DataManager armors_dm;
+
+	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+
+	armors_dm.loadItemList("armors.txt");
+
+	string name = "";
+	int defense = 0;
+	int durability = 0;
+	int rarity = 0;
+
+	string rarity_text = "";
+
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu rarityMenu("Rarity", rarity_menu);
+	MenuManager menuManager;
+
+	bool input_name = false;
+	bool input_defense = false;
+	bool input_durabilty = false;
+	bool input_rarity = false;
+
+	cin.ignore();
+	// render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Enter details for armor", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		if (input_name && input_defense && input_durabilty && input_rarity) {
+			vector<MenuItem> ok_menu_items = { MenuItem("Yes save it!"), MenuItem("No I want to change somthing!") };
+
+			cout << "Armor Name: " << name << endl;
+			cout << "Defense: " << defense << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Rarity: " << rarity_text << endl << endl;
+			cout << "Is this Info OK or do you want to edit?" << endl << endl;
+
+			Menu ok_menu("Confirm", ok_menu_items);
+			menuManager.displayMenu(ok_menu);
+
+			int mode = menuManager.handleMenuSelection(ok_menu);
+
+			if (mode == 5) { // Enter Press
+				int choice = menuManager.getSelectionPos();
+				if (choice == 0) { // Yes, Save It!
+					armors_dm.addData("Name", name);
+					armors_dm.addData("Defense", to_string(defense));
+					armors_dm.addData("Durability", to_string(durability));
+					armors_dm.addData("Rarity", to_string(rarity));
+
+					break;
+				}
+				else if (choice == 1) { // No I want to change something
+					menuManager.reset();
+
+					while (true) {
+					choice_render:
+						system("cls");
+
+						vector<string> headerBoardContent = { "", "Enter details for armor", "" };
+						cout << headerBoard(headerBoardContent, 25, 5);
+						vector<MenuItem> choices = { MenuItem("Name"), MenuItem("Defense"), MenuItem("Durability"), MenuItem("Rarity") };
+
+						Menu choiceMenu("Edit", choices);
+						menuManager.displayMenu(choiceMenu);
+						int mode = menuManager.handleMenuSelection(choiceMenu);
+
+						if (mode == 5) { // Enter Press
+							int choice = menuManager.getSelectionPos();
+
+							if (choice == 0) { // Name
+								cout << "Enter new name: ";
+								getline(cin, name);
+							}
+							else if (choice == 1) { // defense
+								cout << "Enter new defense: ";
+								cin >> defense;
+							}
+							else if (choice == 2) { // durability
+								cout << "Enter new durability: ";
+								cin >> durability;
+							}
+							else if (choice == 3) { // rarity
+								menuManager.reset();
+								while (true) {
+									system("cls");
+
+									vector<string> headerBoardContent = { "", "Enter details for armor", "" };
+									cout << headerBoard(headerBoardContent, 25, 5);
+
+									cout << endl << endl;
+									cout << "Select New Rarity: " << endl << endl;
+
+									menuManager.displayMenu(rarityMenu);
+									int mode = menuManager.handleMenuSelection(rarityMenu);
+									if (mode == 5) { // Enter Pressed
+										rarity = menuManager.getSelectionPos() + 1;
+										rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+										menuManager.reset();
+										break;
+									}
+								}
+							}
+
+							goto render;
+						}
+					}
+				}
+			}
+		}
+		
+		if (!input_name) {
+			cout << "Enter Armor name: ";
+			getline(cin, name);
+			if (armors_dm.fileExists(name + ".txt")) {
+				armors_dm.loadData(name + ".txt");
+				defense = stoi(armors_dm.getData("Defense"));
+				durability = stoi(armors_dm.getData("Durability"));
+				rarity = stoi(armors_dm.getData("Rarity"));
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				input_defense = true;
+				input_durabilty = true;
+				input_rarity = true;
+			}
+			input_name = true;
+		}
+		else if (!input_defense) {
+			cout << "Armor Name: " << name << endl;
+			cout << "Enter Defense: ";
+			cin >> defense;
+			input_defense = true;
+		}
+		else if (!input_durabilty) {
+			cout << "Armor Name: " << name << endl;
+			cout << "Defense: " << defense << endl;
+			cout << "Enter Durability: ";
+			cin >> durability;
+			input_durabilty = true;
+		}
+		else if (!input_rarity) {
+			cout << "Armor Name: " << name << endl;
+			cout << "Defense: " << defense << endl;
+			cout << "Durability: " << durability << endl;
+			cout << "Select Rarity: " << endl;
+			menuManager.displayMenu(rarityMenu);
+			int mode = menuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = menuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				menuManager.reset();
+				input_rarity = true;
+			}
+		}
+	}
+	// end of render
+
+	cout << "Name of armor saved as: " << armors_dm.getData("Name") << endl;
+	cout << "Defense of " << armors_dm.getData("Name") << " Saved as: " << armors_dm.getData("Defense") << endl;
+	cout << "Durability of " << armors_dm.getData("Name") << " Saved as: " << armors_dm.getData("Durability") << endl;
+	cout << "Rarity of " << armors_dm.getData("Name") << " Saved as: " << armors_dm.getData("Rarity") << endl;
+
+	armors_dm.saveData(name + ".txt");
+	armors_dm.addItem(name);
+	armors_dm.saveItemList("armors.txt");
+
+	cout << endl << "Press any key to continue...";
+	_getch();
+
+	testing(player);
+}
+
+void potion_management_scene(Player player) {
+	vector<MenuItem> main_menu_items = { MenuItem("Potions List"), MenuItem("Generate Potions"), MenuItem("Back") };
+	Menu MainMenu("Test", main_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Potion Management", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(MainMenu);
+
+		int mode = menuManager.handleMenuSelection(MainMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == 0) {
+		potions_list_scene(player);
+	}
+	else if (choice == 1) {
+		generate_potion_scene(player);
+	}
+	else if (choice == 2) {
+		config_managment_scene(player);
+	}
+	else {
+		return;
+	}
+}
+
+void potions_list_scene(Player player) {
+	DataManager potions_dm;
+	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+	vector<MenuItem> potion_list = {};
+	potions_dm.loadItemList("potions.txt");
+
+	for (int i = 0; i < potions_dm.getItems().size(); i++) {
+		potion_list.push_back(MenuItem(potions_dm.getItems()[i]));
+	}
+	potion_list.push_back(MenuItem("Back"));
+
+	Menu potionMenu("Potions", potion_list);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Edit Potions", "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(potionMenu);
+
+		int mode = menuManager.handleMenuSelection(potionMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == potion_list.size() - 1) {
+		potion_management_scene(player);
+	}
+	else {
+		selected_potion_scene(player, potion_list[choice].getItemName());
+	}
+}
+
+void selected_potion_scene(Player player, string potion_name) {
+	vector<MenuItem> potion_menu_items = { MenuItem("Edit Potion"), MenuItem("Delete Potion"), MenuItem("Back") };
+	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
+	Menu PotionMenu("Potion Menu", potion_menu_items);
+	Menu YesNoMenu("Yes/No", yes_no_menu_items);
+	MenuManager menuManager;
+
+	// Render
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", potion_name, "What do you want to do with this potion?" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(PotionMenu);
+
+		int mode = menuManager.handleMenuSelection(PotionMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = menuManager.getSelectionPos();
+
+	if (choice == 0) {
+		potion_edit_scene(player, potion_name);
+	}
+	else if (choice == 1) {
+		menuManager.reset();
+		while (true) {
+		confirm_delete_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Delete Potion", potion_name, "Are you sure you want to delete this potion?" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << set_space_V(3);
+			menuManager.displayMenu(YesNoMenu);
+
+			int mode = menuManager.handleMenuSelection(YesNoMenu);
+
+			if (mode == 5) { // Enter Pressed
+				break;
+			}
+		}
+		// End of Render
+
+		int choice = menuManager.getSelectionPos();
+		if (choice == 0) {
+			DataManager potions_dm;
+			potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+			potions_dm.loadItemList("potions.txt");
+			potions_dm.deleteData(potion_name + ".txt");
+			potions_dm.removeItem(potion_name);
+			potions_dm.saveItemList("potions.txt");
+			potions_list_scene(player);
+		}
+		else {
+			goto confirm_delete_render;
+		}
+
+	}
+	else if (choice == 2) {
+		potions_list_scene(player);
+	}
+	else {
+		return;
+	}
+}
+
+void potion_edit_scene(Player player, string potion_name) {
+	DataManager potions_dm;
+	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+
+	potions_dm.loadData(potion_name + ".txt");
+	string name = potions_dm.getData("Name");
+	int heal = stoi(potions_dm.getData("Heal"));
+	int rarity = stoi(potions_dm.getData("Rarity"));
+
+	string rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+
+	vector<MenuItem> edit_options = { MenuItem("Name"), MenuItem("Heal"), MenuItem("Rarity"), MenuItem("Exit") };
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu  editMenu("Edit", edit_options), rarityMenu("Rarity", rarity_menu);
+	MenuManager editMenuManager, rarityMenuManager;
+
+	// Render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent;
+		headerBoardContent = { "", "Edit Potion", potion_name, "" };
+		cout << headerBoard(headerBoardContent, 30, 5);
+
+		cout << "Name: " << name << endl;
+		cout << "Heal: " << heal << endl;
+		cout << "Rarity: " << rarity_text << endl;
+
+		cout << set_space_V(3);
+
+		cout << "What do you want to edit?" << endl << endl;
+		editMenuManager.displayMenu(editMenu);
+		int mode = editMenuManager.handleMenuSelection(editMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+	// End of Render
+
+	int choice = editMenuManager.getSelectionPos();
+	if (choice == 0) { // name edit
+		cout << "Enter new name: ";
+		getline(cin, name);
+		goto render;
+	}
+	else if (choice == 1) { // heal edit
+		cout << "Enter new heal: ";
+		cin >> heal;
+		goto render;
+	}
+	else if (choice == 2) { // rarity edit
+		while (true) {
+		rarity_render:
+			system("cls");
+
+			vector<string> headerBoardContent;
+			headerBoardContent = { "", "Edit Potion", potion_name, "" };
+			cout << headerBoard(headerBoardContent, 30, 5);
+
+			cout << "Name: " << name << endl;
+			cout << "Heal: " << heal << endl;
+			cout << "Rarity: " << rarity_text << endl;
+
+			cout << set_space_V(3);
+			cout << "Select new rarity: " << endl << endl;
+			rarityMenuManager.displayMenu(rarityMenu);
+			int mode = rarityMenuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = rarityMenuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				goto render;
+			}
+		}
+	}
+
+	else {
+		potions_dm.addData("Name", name);
+		potions_dm.addData("Heal", to_string(heal));
+		potions_dm.addData("Rarity", to_string(rarity));
+
+		potions_dm.saveData(potion_name + ".txt");
+
+		potions_list_scene(player);
+	}
+
+}
+
+void generate_potion_scene(Player player) {
+	DataManager potions_dm;
+
+	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+
+	potions_dm.loadItemList("potions.txt");
+
+	string name = "";
+	int heal = 0;
+	int rarity = 0;
+
+	string rarity_text = "";
+
+	vector<MenuItem> rarity_menu = { MenuItem("Common"), MenuItem("Uncommon"), MenuItem("Rare"), MenuItem("Epic") };
+	Menu rarityMenu("Rarity", rarity_menu);
+	MenuManager menuManager;
+
+	bool input_name = false;
+	bool input_heal = false;
+	bool input_rarity = false;
+
+	cin.ignore();
+	// render
+	while (true) {
+	render:
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Enter details for potion", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		if (input_name && input_heal && input_rarity) {
+			vector<MenuItem> ok_menu_items = { MenuItem("Yes save it!"), MenuItem("No I want to change somthing!") };
+
+			cout << "Potion Name: " << name << endl;
+			cout << "Heal: " << heal << endl;
+			cout << "Rarity: " << rarity_text << endl << endl;
+			cout << "Is this Info OK or do you want to edit?" << endl << endl;
+
+			Menu ok_menu("Confirm", ok_menu_items);
+			menuManager.displayMenu(ok_menu);
+
+			int mode = menuManager.handleMenuSelection(ok_menu);
+
+			if (mode == 5) { // Enter Press
+				int choice = menuManager.getSelectionPos();
+				if (choice == 0) { // Yes, Save It!
+					potions_dm.addData("Name", name);
+					potions_dm.addData("Heal", to_string(heal));
+					potions_dm.addData("Rarity", to_string(rarity));
+
+					break;
+				}
+				else if (choice == 1) { // No I want to change something
+					menuManager.reset();
+
+					while (true) {
+					choice_render:
+						system("cls");
+
+						vector<string> headerBoardContent = { "", "Enter details for potion", "" };
+						cout << headerBoard(headerBoardContent, 25, 5);
+						vector<MenuItem> choices = { MenuItem("Name"), MenuItem("Heal"), MenuItem("Rarity") };
+
+						Menu choiceMenu("Edit", choices);
+						menuManager.displayMenu(choiceMenu);
+						int mode = menuManager.handleMenuSelection(choiceMenu);
+
+						if (mode == 5) { // Enter Press
+							int choice = menuManager.getSelectionPos();
+
+							if (choice == 0) { // Name
+								cout << "Enter new name: ";
+								getline(cin, name);
+							}
+							else if (choice == 1) { // heal
+								cout << "Enter new heal: ";
+								cin >> heal;
+							}
+							else if (choice == 2) { // rarity
+								menuManager.reset();
+								while (true) {
+									system("cls");
+
+									vector<string> headerBoardContent = { "", "Enter details for potion", "" };
+									cout << headerBoard(headerBoardContent, 25, 5);
+
+									cout << endl << endl;
+									cout << "Select New Rarity: " << endl << endl;
+
+									menuManager.displayMenu(rarityMenu);
+									int mode = menuManager.handleMenuSelection(rarityMenu);
+									if (mode == 5) { // Enter Pressed
+										rarity = menuManager.getSelectionPos() + 1;
+										rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+										menuManager.reset();
+										break;
+									}
+								}
+							}
+
+							goto render;
+						}
+					}
+				}
+			}
+		}
+
+		if (!input_name) {
+			cout << "Enter Potion name: ";
+			getline(cin, name);
+			if (potions_dm.fileExists(name + ".txt")) {
+				potions_dm.loadData(name + ".txt");
+				heal = stoi(potions_dm.getData("Heal"));
+				rarity = stoi(potions_dm.getData("Rarity"));
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				input_heal = true;
+				input_rarity = true;
+			}
+			input_name = true;
+		}
+		else if (!input_heal) {
+			cout << "Potion Name: " << name << endl;
+			cout << "Enter Heal: ";
+			cin >> heal;
+			input_heal = true;
+		}
+		else if (!input_rarity) {
+			cout << "Potion Name: " << name << endl;
+			cout << "Heal: " << heal << endl;
+			cout << "Select Rarity: " << endl;
+			menuManager.displayMenu(rarityMenu);
+			int mode = menuManager.handleMenuSelection(rarityMenu);
+			if (mode == 5) { // Enter Pressed
+				rarity = menuManager.getSelectionPos() + 1;
+				rarity_text = rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic"));
+				menuManager.reset();
+				input_rarity = true;
+			}
+		}
+	}
+	// end of render
+
+	cout << "Name of potion saved as: " << potions_dm.getData("Name") << endl;
+	cout << "Heal of " << potions_dm.getData("Name") << " Saved as: " << potions_dm.getData("Heal") << endl;
+	cout << "Rarity of " << potions_dm.getData("Name") << " Saved as: " << potions_dm.getData("Rarity") << endl;
+
+	potions_dm.saveData(name + ".txt");
+	potions_dm.addItem(name);
+	potions_dm.saveItemList("potions.txt");
+
+	cout << endl << "Press any key to continue...";
+	_getch();
+
+	testing(player);
+}
+
 void item_obtain_scene(Player player) {
 	// The scene where the player can obtain items for testing purposes
 
@@ -587,7 +1461,7 @@ void mainScene(Player player) {
 void startMenuScene(Player player) {
 	// Scene where the player will have options for starting the game or to go back
 
-	vector<MenuItem> play_menu_items = { MenuItem("Play"), MenuItem("Options"), MenuItem("Back")};
+	vector<MenuItem> play_menu_items = { MenuItem("Play"), MenuItem("Options"), MenuItem("Back to Start Screen")};
 	Menu play_menu("Play", play_menu_items);
 	MenuManager menu_manager;
 
@@ -624,33 +1498,32 @@ void startMenuScene(Player player) {
 }
 
 void selectPlayerFileScene(Player player) {
-	vector<MenuItem> files;
+	vector<MenuItem> player_items;
 
 	DataManager data_manager;
-
 	for (int i = 0; i < 5; i++) {
-		string file_name;
+		string player_item;
+		int player_data_exists = 0;
 		Player tempP;
-		tempP.setPlayerDataPath("player_data_" + to_string(i + 1) + ".txt");
-		if (data_manager.fileExists(tempP.getPlayerDataPath(), false)) {
+		tempP.setPlayerDataPath("Player " + to_string(i + 1));
+		tempP.loadPlayerData();
 
-			string actual_file_name = tempP.getPlayerDataPath();
-
-			tempP.loadPlayerData();
-
-			file_name = to_string(i) + ") " + tempP.getName() + " - LeveL: " + to_string(tempP.getLevel());
-
-			files.push_back(MenuItem(file_name, 1));
+		string player_name = tempP.getName();
+		if (player_name != "Entity") {
+			player_item = tempP.getName() + " - Level " + to_string(tempP.getLevel());
+			player_data_exists = 1;
 		}
 		else {
-			file_name = to_string(i) + ") NEW SAVE";
-			files.push_back(MenuItem(file_name, 2));
+			player_item = "Empty";
+			player_data_exists = 2;
 		}
+
+		player_items.push_back(MenuItem(to_string(i + 1) + ") " + player_item, player_data_exists));
 	}
 
-	files.push_back(MenuItem("6) Back"));
+	player_items.push_back(MenuItem("6) Back"));
 
-	Menu save_file_menu("Save File Menu", files);
+	Menu save_file_menu("Save File Menu", player_items);
 	MenuManager menu_manager;
 
 	// Render
@@ -679,11 +1552,11 @@ void selectPlayerFileScene(Player player) {
 		{
 		case 1:
 			// file exists
-			loadSaveDataScene(player, "player_data_" + to_string(choice + 1) + ".txt");
+			loadSaveDataScene(player, "Player " + to_string(choice + 1));
 			break;
 		case 2:
 			// file does not exists, need to make a file
-			newSaveCreationScene(player, "player_data_" + to_string(choice + 1) + ".txt");
+			newSaveCreationScene(player, "Player " + to_string(choice + 1));
 			break;
 		default:
 			break;

@@ -14,6 +14,10 @@ int main() {
 	system("mkdir Data\\Players\\Player 4");
 	system("mkdir Data\\Players\\Player 5");
 
+	system("mkdir Configs\\Inventory\\Swords");
+	system("mkdir Configs\\Inventory\\Armors");
+	system("mkdir Configs\\Inventory\\Potions");
+
 	Player player;
 
 	mainScene(player);
