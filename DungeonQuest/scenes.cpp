@@ -2,7 +2,7 @@
 
 void testing(Player player) {
 
-	vector<MenuItem> main_menu_items = { MenuItem("Config Management"), MenuItem("Back")};
+	vector<MenuItem> main_menu_items = { MenuItem("Config Management"), MenuItem("Loot Management Simulation"), MenuItem("Back")};
 	Menu MainMenu("Test", main_menu_items);
 	MenuManager menuManager;
 
@@ -31,6 +31,9 @@ void testing(Player player) {
 		config_managment_scene(player);
 	}
 	else if (choice == 1) {
+		item_obtain_scene(player);
+	}
+	else if (choice == 2) {
 		mainScene(player);
 	}
 	else {
@@ -125,7 +128,7 @@ void sword_management_scene(Player player) {
 
 void swords_list_scene(Player player) {
 	DataManager swords_dm;
-	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 	vector<MenuItem> sword_list = {};
 	swords_dm.loadItemList("swords.txt");
 
@@ -221,7 +224,7 @@ void selected_sword_scene(Player player, string sword_name) {
 		int choice = menuManager.getSelectionPos();
 		if (choice == 0) {
 			DataManager swords_dm;
-			swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+			swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 			swords_dm.loadItemList("swords.txt");
 			swords_dm.deleteData(sword_name + ".txt");
 			swords_dm.removeItem(sword_name);
@@ -243,7 +246,7 @@ void selected_sword_scene(Player player, string sword_name) {
 
 void sword_edit_scene(Player player, string sword_name) {
 	DataManager swords_dm;
-	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 
 	swords_dm.loadData(sword_name + ".txt");
 	string name = swords_dm.getData("Name");
@@ -341,7 +344,7 @@ void sword_edit_scene(Player player, string sword_name) {
 void generate_sword_scene(Player player) {
 	DataManager swords_dm;
 	
-	swords_dm.setDataRoot(swords_dm.getConfigsFolder() + "\\Inventory\\Swords");
+	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 
 	swords_dm.loadItemList("swords.txt");
 
@@ -558,7 +561,7 @@ void armor_management_scene(Player player) {
 
 void armors_list_scene(Player player) {
 	DataManager armors_dm;
-	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 	vector<MenuItem> armor_list = {};
 	armors_dm.loadItemList("armors.txt");
 
@@ -654,7 +657,7 @@ void selected_armor_scene(Player player, string armor_name) {
 		int choice = menuManager.getSelectionPos();
 		if (choice == 0) {
 			DataManager armors_dm;
-			armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+			armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 			armors_dm.loadItemList("armors.txt");
 			armors_dm.deleteData(armor_name + ".txt");
 			armors_dm.removeItem(armor_name);
@@ -676,7 +679,7 @@ void selected_armor_scene(Player player, string armor_name) {
 
 void armor_edit_scene(Player player, string armor_name) {
 	DataManager armors_dm;
-	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 
 	armors_dm.loadData(armor_name + ".txt");
 	string name = armors_dm.getData("Name");
@@ -774,7 +777,7 @@ void armor_edit_scene(Player player, string armor_name) {
 void generate_armor_scene(Player player) {
 	DataManager armors_dm;
 
-	armors_dm.setDataRoot(armors_dm.getConfigsFolder() + "\\Inventory\\Armors");
+	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 
 	armors_dm.loadItemList("armors.txt");
 
@@ -988,7 +991,7 @@ void potion_management_scene(Player player) {
 
 void potions_list_scene(Player player) {
 	DataManager potions_dm;
-	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 	vector<MenuItem> potion_list = {};
 	potions_dm.loadItemList("potions.txt");
 
@@ -1084,7 +1087,7 @@ void selected_potion_scene(Player player, string potion_name) {
 		int choice = menuManager.getSelectionPos();
 		if (choice == 0) {
 			DataManager potions_dm;
-			potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+			potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 			potions_dm.loadItemList("potions.txt");
 			potions_dm.deleteData(potion_name + ".txt");
 			potions_dm.removeItem(potion_name);
@@ -1106,7 +1109,7 @@ void selected_potion_scene(Player player, string potion_name) {
 
 void potion_edit_scene(Player player, string potion_name) {
 	DataManager potions_dm;
-	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 
 	potions_dm.loadData(potion_name + ".txt");
 	string name = potions_dm.getData("Name");
@@ -1196,7 +1199,7 @@ void potion_edit_scene(Player player, string potion_name) {
 void generate_potion_scene(Player player) {
 	DataManager potions_dm;
 
-	potions_dm.setDataRoot(potions_dm.getConfigsFolder() + "\\Inventory\\Potions");
+	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 
 	potions_dm.loadItemList("potions.txt");
 
@@ -1352,9 +1355,12 @@ void generate_potion_scene(Player player) {
 void item_obtain_scene(Player player) {
 	// The scene where the player can obtain items for testing purposes
 
-	vector<MenuItem> menuItems = { MenuItem("Obtain Sword"), MenuItem("Obtain Armor"), MenuItem("Obtain Potion"), MenuItem("Back") };
+	vector<MenuItem> menuItems = { MenuItem("Common Crate"), MenuItem("Rare Crate"), MenuItem("Epic Crate"), MenuItem("Back") };
 	Menu mainMenu("Obtain Item", menuItems);
 	MenuManager menuManager;
+
+	LootBox loot_box;
+	Inventory inventory;
 
 	// Render
 	while (true) {
@@ -1382,7 +1388,23 @@ void item_obtain_scene(Player player) {
 
 	int choice = menuManager.getSelectionPos();
 	if (choice == 0) {
-		//player.obtainSword();
+		inventory.clear();
+		inventory.addSword(Sword("Wooden Sword"));
+		inventory.addArmor(Armor("Wooden Armor"));
+		inventory.addPotion(Potion("Healing Potion"));
+
+		loot_box.clear();
+		loot_box.setItemsPool(inventory);
+		loot_box.setCoins(100);
+		loot_box.setGems(10);
+		loot_box.setXP(250);
+		loot_box.setItemAppearanceChances(100, 20, 15, 40);
+		loot_box.setItemRarityWeights({1}, {1}, {1});
+
+		loot_box.setup();
+		loot_box.display_loot();
+		_getch();
+
 		goto render;
 	}
 	else if (choice == 1) {

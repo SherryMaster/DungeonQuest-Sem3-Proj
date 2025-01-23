@@ -26,6 +26,8 @@ public:
 	vector<Armor> getArmors() const;
 	vector<Potion> getPotions() const;
 
+	void clear();
+
 };
 
 class Item {
@@ -38,6 +40,7 @@ class Item {
 
 	bool stackable;
 
+protected:
 	DataManager dm;
 
 public:
@@ -61,14 +64,17 @@ public:
 
 class Sword : public Item {
 	int damage;
+	int durability;
 
 public:
 	Sword();
-	Sword(string name, int price, int damage);
+	Sword(string name);
 
-	void setDamage(int dmg);
+	Sword& setDamage(int dmg);
+	Sword& setDurability(int dur);
 
 	int getDamage() const;
+	int getDurability() const;
 };
 
 class Armor : public Item {
@@ -76,7 +82,7 @@ class Armor : public Item {
 
 public:
 	Armor();
-	Armor(string name, int price, int defense);
+	Armor(string name);
 
 	void setDefense(int def);
 
@@ -89,7 +95,7 @@ class Potion : public Item {
 
 public:
 	Potion();
-	Potion(string name, int price, int health);
+	Potion(string name);
 
 	void setHealth(int hp);
 

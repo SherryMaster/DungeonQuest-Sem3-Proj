@@ -13,6 +13,12 @@ void Inventory::addArmor(Armor armor) {
 }
 
 void Inventory::addPotion(Potion potion) {
+	for (int i = 0; i < potions.size(); i++) {
+		if (potions[i].getName() == potion.getName()) {
+			potions[i].setQuantity(potions[i].getQuantity() + potion.getQuantity());
+			return;
+		}
+	}
 	potions.push_back(potion);
 }
 
@@ -28,16 +34,24 @@ vector<Potion> Inventory::getPotions() const {
 	return potions;
 }
 
+void Inventory::clear() {
+	swords.clear();
+	armors.clear();
+	potions.clear();
+}
+
 Item::Item() {
 	name = "";
 	price = 0;
 	quantity = 1;
+	stackable = false;
 }
 
 Item::Item(string name, int price, int quantity) {
 	this->name = name;
 	this->price = price;
 	this->quantity = quantity;
+	stackable = false;
 }
 
 Item& Item::setName(string name) {
@@ -98,20 +112,38 @@ Sword::Sword() {
 	damage = 0;
 	setType("Weapon");
 	stackAble(false);
+
 }
 
-Sword::Sword(string name, int price, int damage) : Item(name, price, 1) {
-	this->damage = damage;
+Sword::Sword(string name) {
 	setType("Weapon");
 	stackAble(false);
+
+	dm.loadData("Configs\\Inventory\\Swords\\" + name + ".txt");
+
+	setName(dm.getData("Name"));
+	int rarity = stoi(dm.getData("Rarity"));
+	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
+	setDamage(stoi(dm.getData("Damage")));
+	setPrice(0);
 }
 
-void Sword::setDamage(int dmg) {
+Sword& Sword::setDamage(int dmg) {
 	damage = dmg;
+	return *this;
+}
+
+Sword& Sword::setDurability(int dur) {
+	durability = dur;
+	return *this;
 }
 
 int Sword::getDamage() const {
 	return damage;
+}
+
+int Sword::getDurability() const {
+	return durability;
 }
 
 Armor::Armor() {
@@ -120,10 +152,18 @@ Armor::Armor() {
 	stackAble(false);
 }
 
-Armor::Armor(string name, int price, int defense) : Item(name, price, 1) {
-	this->defense = defense;
+Armor::Armor(string name) {
 	setType("Armor");
 	stackAble(false);
+
+	dm.loadData("Configs\\Inventory\\Armors\\" + name + ".txt");
+
+
+	setName(dm.getData("Name"));
+	int rarity = stoi(dm.getData("Rarity"));
+	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
+	setDefense(stoi(dm.getData("Defense")));
+	setPrice(0);
 }
 
 void Armor::setDefense(int def) {
@@ -140,10 +180,16 @@ Potion::Potion() {
 	stackAble(true);
 }
 
-Potion::Potion(string name, int price, int health) : Item(name, price, 1) {
+Potion::Potion(string name) {
 	this->health = health;
 	setType("Potion");
 	stackAble(true);
+
+	dm.loadData("Configs\\Inventory\\Potions\\" + name + ".txt");
+	int rarity = stoi(dm.getData("Rarity"));
+	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
+	setHealth(stoi(dm.getData("Heal")));
+	setPrice(0);
 }
 																																																
 void Potion::setHealth(int hp) {

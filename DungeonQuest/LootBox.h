@@ -7,16 +7,12 @@ class LootBox {
 	int coins = 0;
 	int gems = 0;
 	float xp = 0;
-	vector<Sword> swords;
-	vector<Armor> armors;
-	vector<Potion> potions;
+	Inventory available_items;
 
 	int obtained_coins = 0;
 	int obtained_gems = 0;
 	float obtained_xp = 0;
-	vector<Sword> obtained_swords;
-	vector<Armor> obtained_armors;
-	vector<Potion> obtained_potions;
+	Inventory obtained_items;
 
 	/// luck parameters
 
@@ -36,9 +32,8 @@ class LootBox {
 
 	int sum_of_weights(vector<int> weights);
 	int draw_item_index(vector<int> weights, int total_weight);
-
-	// drawing items
-	void draw_sword();
+	void draw_item(int item_type);
+	void roll();
 
 public:
 	LootBox();
@@ -46,16 +41,10 @@ public:
 	LootBox& setCoins(int coins);
 	LootBox& setGems(int gems);
 	LootBox& setXP(float xp);
-	LootBox& setSwordsPool(vector<Sword> sword_list);
-	LootBox& setSArmorsPool(vector<Armor> armor_list);
-	LootBox& setPotionsPool(vector<Potion> potion_list);
-
-	LootBox& addSword(Sword sword);
-	LootBox& addArmor(Armor armor);
-	LootBox& addPotion(Potion potion);
+	LootBox& setItemsPool(Inventory items);
 
 	LootBox& setNumberOfRolls(int number_of_rolls);
-	LootBox& setItemChances(int none, int sword, int armor, int potion);
+	LootBox& setItemAppearanceChances(int none, int sword, int armor, int potion);
 	LootBox& setItemRarityWeights(vector<int> sword, vector<int> armor, vector<int> potion);
 
 	int getCoins() const;
@@ -66,5 +55,7 @@ public:
 	vector<Potion> getPotions() const;
 
 	void setup();
-	//void roll_item();
+	void display_loot();
+
+	void clear();
 };

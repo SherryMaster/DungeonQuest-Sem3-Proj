@@ -2,12 +2,13 @@
 #include<iostream>
 #include <string>
 #include<vector>
+#include<fstream>
+#include<conio.h>
 #include"MenuSelection.h"
 #include"display_components.h"
 #include"Player.h"
 #include"DataManager.h"
-#include"fstream"
-#include"conio.h"
+#include"LootBox.h"
 using namespace std;
 
 void testing(Player player); // For development purposes only.

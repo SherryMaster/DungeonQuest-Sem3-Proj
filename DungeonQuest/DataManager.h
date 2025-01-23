@@ -13,14 +13,12 @@ class DataManager {
 	vector<string> items; // for array of items in a file whose first line is the number of items.
 
 	string data_root = "Data";
-	string configs = data_root + "\\Configs";
 public:
 	DataManager();
 	~DataManager();
 
 	void setDataRoot(string root);
 	string getDataRoot() const;
-	string getConfigsFolder() const;
 
 	void saveData(string filename);
 	void loadData(string filename);
