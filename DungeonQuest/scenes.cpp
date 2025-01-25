@@ -1355,12 +1355,13 @@ void generate_potion_scene(Player player) {
 void item_obtain_scene(Player player) {
 	// The scene where the player can obtain items for testing purposes
 
-	vector<MenuItem> menuItems = { MenuItem("Common Crate"), MenuItem("Rare Crate"), MenuItem("Epic Crate"), MenuItem("Back") };
+	vector<MenuItem> menuItems = { MenuItem("Common Crate"), MenuItem("Uncommon Crate"), MenuItem("Rare Crate"), MenuItem("Epic Crate"), MenuItem("Back")};
 	Menu mainMenu("Obtain Item", menuItems);
 	MenuManager menuManager;
 
 	LootBox loot_box;
 	Inventory inventory;
+	int num_of_rolls = 5;
 
 	// Render
 	while (true) {
@@ -1391,7 +1392,7 @@ void item_obtain_scene(Player player) {
 		inventory.clear();
 		inventory.addSword(Sword("Wooden Sword"));
 		inventory.addArmor(Armor("Wooden Armor"));
-		inventory.addPotion(Potion("Healing Potion"));
+		inventory.addPotion(Potion("Small HP Potion"));
 
 		loot_box.clear();
 		loot_box.setItemsPool(inventory);
@@ -1401,6 +1402,8 @@ void item_obtain_scene(Player player) {
 		loot_box.setItemAppearanceChances(100, 20, 15, 40);
 		loot_box.setItemRarityWeights({1}, {1}, {1});
 
+		loot_box.setNumberOfRolls(num_of_rolls);
+
 		loot_box.setup();
 		loot_box.display_loot();
 		_getch();
@@ -1408,11 +1411,84 @@ void item_obtain_scene(Player player) {
 		goto render;
 	}
 	else if (choice == 1) {
-		//player.obtainArmor();
+		inventory.clear();
+		inventory.addSword(Sword("Wooden Sword"));
+		inventory.addSword(Sword("Iron Sword"));
+		inventory.addArmor(Armor("Wooden Armor"));
+		inventory.addArmor(Armor("Iron Armor"));
+		inventory.addPotion(Potion("Small HP Potion"));
+		inventory.addPotion(Potion("Medium HP Potion"));
+
+		loot_box.clear();
+		loot_box.setItemsPool(inventory);
+		loot_box.setCoins(100);
+		loot_box.setGems(10);
+		loot_box.setXP(250);
+		loot_box.setItemAppearanceChances(70, 25, 20, 40);
+		loot_box.setItemRarityWeights({ 100, 25 }, { 100, 20 }, { 100, 30 });
+
+		loot_box.setNumberOfRolls(num_of_rolls);
+
+		loot_box.setup();
+		loot_box.display_loot();
+		_getch();
 		goto render;
 	}
 	else if (choice == 2) {
-		//player.obtainPotion();
+		inventory.clear();
+		inventory.addSword(Sword("Wooden Sword"));
+		inventory.addSword(Sword("Iron Sword"));
+		inventory.addSword(Sword("Steel Sword"));
+		inventory.addArmor(Armor("Wooden Armor"));
+		inventory.addArmor(Armor("Iron Armor"));
+		inventory.addArmor(Armor("Steel Armor"));
+		inventory.addPotion(Potion("Small HP Potion"));
+		inventory.addPotion(Potion("Medium HP Potion"));
+		inventory.addPotion(Potion("Large HP Potion"));
+
+		loot_box.clear();
+		loot_box.setItemsPool(inventory);
+		loot_box.setCoins(100);
+		loot_box.setGems(10);
+		loot_box.setXP(250);
+		loot_box.setItemAppearanceChances(45, 20, 20, 40);
+		loot_box.setItemRarityWeights({ 100, 40, 15 }, { 100, 45, 13 }, { 100, 55, 20 });
+
+		loot_box.setNumberOfRolls(num_of_rolls);
+
+		loot_box.setup();
+		loot_box.display_loot();
+		_getch();
+		goto render;
+	}
+	else if (choice == 3) {
+		inventory.clear();
+		inventory.addSword(Sword("Wooden Sword"));
+		inventory.addSword(Sword("Iron Sword"));
+		inventory.addSword(Sword("Steel Sword"));
+		inventory.addSword(Sword("Diamond Sword"));
+		inventory.addArmor(Armor("Wooden Armor"));
+		inventory.addArmor(Armor("Iron Armor"));
+		inventory.addArmor(Armor("Steel Armor"));
+		inventory.addArmor(Armor("Diamond Armor"));
+		inventory.addPotion(Potion("Small HP Potion"));
+		inventory.addPotion(Potion("Medium HP Potion"));
+		inventory.addPotion(Potion("Large HP Potion"));
+		inventory.addPotion(Potion("XL HP Potion"));
+
+		loot_box.clear();
+		loot_box.setItemsPool(inventory);
+		loot_box.setCoins(100);
+		loot_box.setGems(10);
+		loot_box.setXP(250);
+		loot_box.setItemAppearanceChances(20, 40, 35, 50);
+		loot_box.setItemRarityWeights({ 50, 30, 20, 10 }, { 55, 40, 20, 9 }, { 40, 35, 20, 12 });
+
+		loot_box.setNumberOfRolls(num_of_rolls);
+
+		loot_box.setup();
+		loot_box.display_loot();
+		_getch();
 		goto render;
 	}
 	else {
@@ -1769,10 +1845,12 @@ void gameScene(Player player)
 void inventoryScene(Player player) {
 	// The scene where the player can see their inventory
 
-	vector<MenuItem> menuItems = { MenuItem("Back") };
+	vector<MenuItem> menuItems;
 	Menu mainMenu("Inventory", menuItems);
 	MenuManager menuManager;
 
+
+	menuItems.push_back(MenuItem("Back"));
 	// Render
 	while (true) {
 	render:
@@ -1798,7 +1876,7 @@ void inventoryScene(Player player) {
 	// End of Render
 
 	int choice = menuManager.getSelectionPos();
-	if (choice == 0) {
+	if (choice == menuItems.size() - 1) {
 		gameScene(player);
 	}
 }

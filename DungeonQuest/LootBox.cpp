@@ -14,7 +14,7 @@ int LootBox::draw_item_index(vector<int> weights, int total_weight) {
     int random_number = rand() % total_weight;
     int index = 0;
     int max_elements = static_cast<int>(weights.size()); // Fix for Problem 4
-    int total = total_weight;
+    int total = random_number;
     while (true) {
         total -= weights[index];
         if (total <= 0) {
@@ -150,19 +150,19 @@ void LootBox::display_loot() {
 
     cout << "Swords: " << endl;
     for (int i = 0; i < swords.size(); i++) {
-        cout << swords[i].getName() << " " << swords[i].getRarity() << endl;
+        cout << swords[i].getName() << " - " << swords[i].getRarity() << endl;
     }
     cout << endl;
 
     cout << "Armors: " << endl;
     for (int i = 0; i < armors.size(); i++) {
-        cout << armors[i].getName() << " " << armors[i].getRarity() << endl;
+        cout << armors[i].getName() << " - " << armors[i].getRarity() << endl;
     }
     cout << endl;
 
     cout << "Potions: " << endl;
     for (int i = 0; i < potions.size(); i++) {
-        cout << potions[i].getName() << " " << potions[i].getRarity() << endl;
+        cout << potions[i].getName() << " - " << potions[i].getRarity() << endl;
     }
 }
 

@@ -86,6 +86,10 @@ int Player::getExperienceToNextLevel() const{
 	return experience_to_next_level;
 }
 
+const Inventory& Player::getInventory() const {
+	return inventory;
+}
+
 void Player::adjustCoins(int coins) {
 	this->coins += coins;
 }

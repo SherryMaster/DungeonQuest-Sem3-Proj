@@ -68,6 +68,7 @@ public:
 	int getExperience() const;
 	int getExperienceToNextLevel() const;
 	string getPlayerDataPath() const;
+	const Inventory& getInventory() const;
 
 	void adjustCoins(int coins);
 	void adjustGems(int gems);

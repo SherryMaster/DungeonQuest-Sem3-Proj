@@ -83,11 +83,11 @@ bool DataManager::fileExists(string filename, bool root_mode) const {
 	ifstream file;
 	if (!root_mode) {
 		file.open(filename);
-		cout <<  filename << endl;
+		//cout <<  filename << endl;
 	}
 	else {
 		file.open(data_root + "\\" + filename);
-		cout << data_root + "\\" + filename << endl;
+		//cout << data_root + "\\" + filename << endl;
 	}
 
 	if (file.is_open()) {

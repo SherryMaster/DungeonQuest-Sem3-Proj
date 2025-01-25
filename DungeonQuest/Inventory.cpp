@@ -186,6 +186,7 @@ Potion::Potion(string name) {
 	stackAble(true);
 
 	dm.loadData("Configs\\Inventory\\Potions\\" + name + ".txt");
+	setName(dm.getData("Name"));
 	int rarity = stoi(dm.getData("Rarity"));
 	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
 	setHealth(stoi(dm.getData("Heal")));
