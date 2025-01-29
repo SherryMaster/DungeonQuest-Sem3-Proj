@@ -166,6 +166,28 @@ void LootBox::display_loot() {
     }
 }
 
+void LootBox::give_loot_to_player(Player& player) {
+	player.adjustCoins(obtained_coins);
+	player.adjustGems(obtained_gems);
+	player.gainExperience(obtained_xp);
+	
+	vector<Sword> swords = obtained_items.getSwords();
+	vector<Armor> armors = obtained_items.getArmors();
+	vector<Potion> potions = obtained_items.getPotions();
+
+	for (int i = 0; i < swords.size(); i++) {
+		player.getInventory().addSword(swords[i]);
+	}
+
+    for (int i = 0; i < armors.size(); i++) {
+        player.getInventory().addArmor(armors[i]);
+    }
+
+    for (int i = 0; i < potions.size(); i++) {
+        player.getInventory().addPotion(potions[i]);
+    }
+}
+
 void LootBox::clear() {
     obtained_coins = 0;
     obtained_gems = 0;

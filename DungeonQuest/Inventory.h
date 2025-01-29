@@ -79,25 +79,27 @@ public:
 
 class Armor : public Item {
 	int defense;
+	int durability;
 
 public:
 	Armor();
 	Armor(string name);
 
-	void setDefense(int def);
+	Armor& setDefense(int def);
+	Armor& setDurability(int dur);
 
 	int getDefense() const;
+	int getDurability() const;
 };
 
 class Potion : public Item {
 	int health;
 
-
 public:
 	Potion();
 	Potion(string name);
 
-	void setHealth(int hp);
+	Potion& setHealth(int hp);
 
 	int getHealth() const;
 };

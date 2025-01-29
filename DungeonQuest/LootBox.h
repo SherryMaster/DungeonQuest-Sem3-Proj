@@ -1,5 +1,6 @@
 #pragma once
 #include"Inventory.h"
+#include"Player.h"
 
 class LootBox {
 	int number_of_rolls = 0;
@@ -56,6 +57,7 @@ public:
 
 	void setup();
 	void display_loot();
+	void give_loot_to_player(Player& player); // give loot to player (add coins, gems, xp, items to player's inventory
 
 	void clear();
 };

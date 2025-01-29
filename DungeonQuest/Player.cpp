@@ -2,7 +2,7 @@
 #include<fstream>
 using namespace std;
 
-Player::Player() {
+Player::Player(Inventory inventory) {
 	coins = 0;
 	gems = 0;
 	health = 100;
@@ -11,9 +11,11 @@ Player::Player() {
 	experience = 0;
 	experience_to_next_level = 100;
 	dataManager.setDataRoot(dataManager.getDataRoot() + "\\" + "Players");
+	this->inventory = &inventory;
 }
 
 Player::~Player() {
+	delete inventory;
 }
 
 void Player::setCoins(int coins) {
@@ -86,8 +88,8 @@ int Player::getExperienceToNextLevel() const{
 	return experience_to_next_level;
 }
 
-const Inventory& Player::getInventory() const {
-	return inventory;
+Inventory& Player::getInventory() const {
+	return *inventory;
 }
 
 void Player::adjustCoins(int coins) {
@@ -228,4 +230,8 @@ void Player::loadPlayerData() {
 
 void Player::deletePlayerData() {
 	dataManager.deleteData(player_data_path + "\\player info.txt");
+}
+
+void Player::clearDataKeysAndValues() {
+	dataManager.clearData();
 }

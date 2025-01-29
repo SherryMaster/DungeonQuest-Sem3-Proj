@@ -125,6 +125,7 @@ Sword::Sword(string name) {
 	int rarity = stoi(dm.getData("Rarity"));
 	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
 	setDamage(stoi(dm.getData("Damage")));
+	setDurability(stoi(dm.getData("Durability")));
 	setPrice(0);
 }
 
@@ -163,15 +164,26 @@ Armor::Armor(string name) {
 	int rarity = stoi(dm.getData("Rarity"));
 	setRarity(rarity == 1 ? "Common" : (rarity == 2 ? "Uncommon" : (rarity == 3 ? "Rare" : "Epic")));
 	setDefense(stoi(dm.getData("Defense")));
+	setDurability(stoi(dm.getData("Durability")));
 	setPrice(0);
 }
 
-void Armor::setDefense(int def) {
+Armor& Armor::setDefense(int def) {
 	defense = def;
+	return *this;
+}
+
+Armor& Armor::setDurability(int dur) {
+	durability = dur;
+	return *this;
 }
 
 int Armor::getDefense() const {
 	return defense;
+}
+
+int Armor::getDurability() const {
+	return durability;
 }
 
 Potion::Potion() {
@@ -193,8 +205,9 @@ Potion::Potion(string name) {
 	setPrice(0);
 }
 																																																
-void Potion::setHealth(int hp) {
+Potion& Potion::setHealth(int hp) {
 	health = hp;
+	return *this;
 }
 
 int Potion::getHealth() const {

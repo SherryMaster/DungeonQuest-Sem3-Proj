@@ -18,7 +18,7 @@ class Player : public Entity {
 	float experience_to_next_level;
 
 	// inventory
-	Inventory inventory;
+	Inventory* inventory;
 
 	// dungeon stats
 	bool forest_dungeon_cleared = false;
@@ -47,7 +47,7 @@ class Player : public Entity {
 	int player_num = 1;
 
 public:
-	Player();
+	Player(Inventory inventory);
 	~Player();
 
 	void setCoins(int coins);
@@ -68,7 +68,7 @@ public:
 	int getExperience() const;
 	int getExperienceToNextLevel() const;
 	string getPlayerDataPath() const;
-	const Inventory& getInventory() const;
+	Inventory& getInventory() const;
 
 	void adjustCoins(int coins);
 	void adjustGems(int gems);
@@ -80,4 +80,6 @@ public:
 	void savePlayerData();
 	void loadPlayerData();
 	void deletePlayerData();
+
+	void clearDataKeysAndValues();
 };

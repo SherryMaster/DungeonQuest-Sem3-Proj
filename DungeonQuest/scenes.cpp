@@ -1,6 +1,6 @@
 #include"scenes.h"
 
-void testing(Player player) {
+void testing(Player& player) {
 
 	vector<MenuItem> main_menu_items = { MenuItem("Config Management"), MenuItem("Loot Management Simulation"), MenuItem("Back")};
 	Menu MainMenu("Test", main_menu_items);
@@ -43,7 +43,7 @@ void testing(Player player) {
 }
 
 
-void config_managment_scene(Player player) {
+void config_managment_scene(Player& player) {
 	vector<MenuItem> config_items = { MenuItem("Sword Management"), MenuItem("Armor Management"), MenuItem("Potion Management"), MenuItem("Back") };
 	Menu ConfigMenu("Config", config_items);
 	MenuManager menuManager;
@@ -86,7 +86,7 @@ void config_managment_scene(Player player) {
 	}
 }
 
-void sword_management_scene(Player player) {
+void sword_management_scene(Player& player) {
 	vector<MenuItem> main_menu_items = { MenuItem("Swords List"), MenuItem("Generate Swords"), MenuItem("Back")};
 	Menu MainMenu("Test", main_menu_items);
 	MenuManager menuManager;
@@ -126,7 +126,7 @@ void sword_management_scene(Player player) {
 	}
 }
 
-void swords_list_scene(Player player) {
+void swords_list_scene(Player& player) {
 	DataManager swords_dm;
 	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 	vector<MenuItem> sword_list = {};
@@ -169,7 +169,7 @@ void swords_list_scene(Player player) {
 	}
 }
 
-void selected_sword_scene(Player player, string sword_name) {
+void selected_sword_scene(Player& player, string sword_name) {
 	vector<MenuItem> sword_menu_items = { MenuItem("Edit Sword"), MenuItem("Delete Sword"), MenuItem("Back") };
 	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
 	Menu SwordMenu("Sword Menu", sword_menu_items);
@@ -244,7 +244,7 @@ void selected_sword_scene(Player player, string sword_name) {
 	}
 }
 
-void sword_edit_scene(Player player, string sword_name) {
+void sword_edit_scene(Player& player, string sword_name) {
 	DataManager swords_dm;
 	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
 
@@ -341,7 +341,7 @@ void sword_edit_scene(Player player, string sword_name) {
 
 }
 
-void generate_sword_scene(Player player) {
+void generate_sword_scene(Player& player) {
 	DataManager swords_dm;
 	
 	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
@@ -519,7 +519,7 @@ void generate_sword_scene(Player player) {
 	testing(player);
 }
 
-void armor_management_scene(Player player) {
+void armor_management_scene(Player& player) {
 	vector<MenuItem> main_menu_items = { MenuItem("Armors List"), MenuItem("Generate Armors"), MenuItem("Back") };
 	Menu MainMenu("Test", main_menu_items);
 	MenuManager menuManager;
@@ -559,7 +559,7 @@ void armor_management_scene(Player player) {
 	}
 }
 
-void armors_list_scene(Player player) {
+void armors_list_scene(Player& player) {
 	DataManager armors_dm;
 	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 	vector<MenuItem> armor_list = {};
@@ -602,7 +602,7 @@ void armors_list_scene(Player player) {
 	}
 }
 
-void selected_armor_scene(Player player, string armor_name) {
+void selected_armor_scene(Player& player, string armor_name) {
 	vector<MenuItem> armor_menu_items = { MenuItem("Edit Armor"), MenuItem("Delete Armor"), MenuItem("Back") };
 	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
 	Menu ArmorMenu("Armor Menu", armor_menu_items);
@@ -677,7 +677,7 @@ void selected_armor_scene(Player player, string armor_name) {
 	}
 }
 
-void armor_edit_scene(Player player, string armor_name) {
+void armor_edit_scene(Player& player, string armor_name) {
 	DataManager armors_dm;
 	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
 
@@ -774,7 +774,7 @@ void armor_edit_scene(Player player, string armor_name) {
 
 }
 
-void generate_armor_scene(Player player) {
+void generate_armor_scene(Player& player) {
 	DataManager armors_dm;
 
 	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
@@ -949,7 +949,7 @@ void generate_armor_scene(Player player) {
 	testing(player);
 }
 
-void potion_management_scene(Player player) {
+void potion_management_scene(Player& player) {
 	vector<MenuItem> main_menu_items = { MenuItem("Potions List"), MenuItem("Generate Potions"), MenuItem("Back") };
 	Menu MainMenu("Test", main_menu_items);
 	MenuManager menuManager;
@@ -989,7 +989,7 @@ void potion_management_scene(Player player) {
 	}
 }
 
-void potions_list_scene(Player player) {
+void potions_list_scene(Player& player) {
 	DataManager potions_dm;
 	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 	vector<MenuItem> potion_list = {};
@@ -1032,7 +1032,7 @@ void potions_list_scene(Player player) {
 	}
 }
 
-void selected_potion_scene(Player player, string potion_name) {
+void selected_potion_scene(Player& player, string potion_name) {
 	vector<MenuItem> potion_menu_items = { MenuItem("Edit Potion"), MenuItem("Delete Potion"), MenuItem("Back") };
 	vector<MenuItem> yes_no_menu_items = { MenuItem("Yes"), MenuItem("No") };
 	Menu PotionMenu("Potion Menu", potion_menu_items);
@@ -1107,7 +1107,7 @@ void selected_potion_scene(Player player, string potion_name) {
 	}
 }
 
-void potion_edit_scene(Player player, string potion_name) {
+void potion_edit_scene(Player& player, string potion_name) {
 	DataManager potions_dm;
 	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
 
@@ -1196,7 +1196,7 @@ void potion_edit_scene(Player player, string potion_name) {
 
 }
 
-void generate_potion_scene(Player player) {
+void generate_potion_scene(Player& player) {
 	DataManager potions_dm;
 
 	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
@@ -1352,7 +1352,7 @@ void generate_potion_scene(Player player) {
 	testing(player);
 }
 
-void item_obtain_scene(Player player) {
+void item_obtain_scene(Player& player) {
 	// The scene where the player can obtain items for testing purposes
 
 	vector<MenuItem> menuItems = { MenuItem("Common Crate"), MenuItem("Uncommon Crate"), MenuItem("Rare Crate"), MenuItem("Epic Crate"), MenuItem("Back")};
@@ -1361,7 +1361,7 @@ void item_obtain_scene(Player player) {
 
 	LootBox loot_box;
 	Inventory inventory;
-	int num_of_rolls = 5;
+	int num_of_rolls = 1;
 
 	// Render
 	while (true) {
@@ -1388,112 +1388,117 @@ void item_obtain_scene(Player player) {
 	// End of Render
 
 	int choice = menuManager.getSelectionPos();
-	if (choice == 0) {
-		inventory.clear();
-		inventory.addSword(Sword("Wooden Sword"));
-		inventory.addArmor(Armor("Wooden Armor"));
-		inventory.addPotion(Potion("Small HP Potion"));
+    switch (choice) {
+		case 0:
+			inventory.clear();
+			inventory.addSword(Sword("Wooden Sword"));
+			inventory.addArmor(Armor("Wooden Armor"));
+			inventory.addPotion(Potion("Small HP Potion"));
 
-		loot_box.clear();
-		loot_box.setItemsPool(inventory);
-		loot_box.setCoins(100);
-		loot_box.setGems(10);
-		loot_box.setXP(250);
-		loot_box.setItemAppearanceChances(100, 20, 15, 40);
-		loot_box.setItemRarityWeights({1}, {1}, {1});
+			loot_box.clear();
+			loot_box.setItemsPool(inventory);
+			loot_box.setCoins(100);
+			loot_box.setGems(10);
+			loot_box.setXP(250);
+			loot_box.setItemAppearanceChances(100, 20, 15, 40);
+			loot_box.setItemRarityWeights({1}, {1}, {1});
 
-		loot_box.setNumberOfRolls(num_of_rolls);
+			loot_box.setNumberOfRolls(num_of_rolls);
 
-		loot_box.setup();
-		loot_box.display_loot();
-		_getch();
+			loot_box.setup();
+			loot_box.display_loot();
+			_getch();
+			loot_box.give_loot_to_player(player);
 
-		goto render;
-	}
-	else if (choice == 1) {
-		inventory.clear();
-		inventory.addSword(Sword("Wooden Sword"));
-		inventory.addSword(Sword("Iron Sword"));
-		inventory.addArmor(Armor("Wooden Armor"));
-		inventory.addArmor(Armor("Iron Armor"));
-		inventory.addPotion(Potion("Small HP Potion"));
-		inventory.addPotion(Potion("Medium HP Potion"));
+			goto render;
 
-		loot_box.clear();
-		loot_box.setItemsPool(inventory);
-		loot_box.setCoins(100);
-		loot_box.setGems(10);
-		loot_box.setXP(250);
-		loot_box.setItemAppearanceChances(70, 25, 20, 40);
-		loot_box.setItemRarityWeights({ 100, 25 }, { 100, 20 }, { 100, 30 });
+		case 1:
+			inventory.clear();
+			inventory.addSword(Sword("Wooden Sword"));
+			inventory.addSword(Sword("Iron Sword"));
+			inventory.addArmor(Armor("Wooden Armor"));
+			inventory.addArmor(Armor("Iron Armor"));
+			inventory.addPotion(Potion("Small HP Potion"));
+			inventory.addPotion(Potion("Medium HP Potion"));
 
-		loot_box.setNumberOfRolls(num_of_rolls);
+			loot_box.clear();
+			loot_box.setItemsPool(inventory);
+			loot_box.setCoins(200);
+			loot_box.setGems(20);
+			loot_box.setXP(550);
+			loot_box.setItemAppearanceChances(70, 25, 20, 40);
+			loot_box.setItemRarityWeights({ 100, 25 }, { 100, 20 }, { 100, 30 });
 
-		loot_box.setup();
-		loot_box.display_loot();
-		_getch();
-		goto render;
-	}
-	else if (choice == 2) {
-		inventory.clear();
-		inventory.addSword(Sword("Wooden Sword"));
-		inventory.addSword(Sword("Iron Sword"));
-		inventory.addSword(Sword("Steel Sword"));
-		inventory.addArmor(Armor("Wooden Armor"));
-		inventory.addArmor(Armor("Iron Armor"));
-		inventory.addArmor(Armor("Steel Armor"));
-		inventory.addPotion(Potion("Small HP Potion"));
-		inventory.addPotion(Potion("Medium HP Potion"));
-		inventory.addPotion(Potion("Large HP Potion"));
+			loot_box.setNumberOfRolls(num_of_rolls);
 
-		loot_box.clear();
-		loot_box.setItemsPool(inventory);
-		loot_box.setCoins(100);
-		loot_box.setGems(10);
-		loot_box.setXP(250);
-		loot_box.setItemAppearanceChances(45, 20, 20, 40);
-		loot_box.setItemRarityWeights({ 100, 40, 15 }, { 100, 45, 13 }, { 100, 55, 20 });
+			loot_box.setup();
+			loot_box.display_loot();
+			_getch();
+			loot_box.give_loot_to_player(player);
+			goto render;
 
-		loot_box.setNumberOfRolls(num_of_rolls);
+		case 2:
+			inventory.clear();
+			inventory.addSword(Sword("Wooden Sword"));
+			inventory.addSword(Sword("Iron Sword"));
+			inventory.addSword(Sword("Steel Sword"));
+			inventory.addArmor(Armor("Wooden Armor"));
+			inventory.addArmor(Armor("Iron Armor"));
+			inventory.addArmor(Armor("Steel Armor"));
+			inventory.addPotion(Potion("Small HP Potion"));
+			inventory.addPotion(Potion("Medium HP Potion"));
+			inventory.addPotion(Potion("Large HP Potion"));
 
-		loot_box.setup();
-		loot_box.display_loot();
-		_getch();
-		goto render;
-	}
-	else if (choice == 3) {
-		inventory.clear();
-		inventory.addSword(Sword("Wooden Sword"));
-		inventory.addSword(Sword("Iron Sword"));
-		inventory.addSword(Sword("Steel Sword"));
-		inventory.addSword(Sword("Diamond Sword"));
-		inventory.addArmor(Armor("Wooden Armor"));
-		inventory.addArmor(Armor("Iron Armor"));
-		inventory.addArmor(Armor("Steel Armor"));
-		inventory.addArmor(Armor("Diamond Armor"));
-		inventory.addPotion(Potion("Small HP Potion"));
-		inventory.addPotion(Potion("Medium HP Potion"));
-		inventory.addPotion(Potion("Large HP Potion"));
-		inventory.addPotion(Potion("XL HP Potion"));
+			loot_box.clear();
+			loot_box.setItemsPool(inventory);
+			loot_box.setCoins(350);
+			loot_box.setGems(50);
+			loot_box.setXP(1150);
+			loot_box.setItemAppearanceChances(45, 20, 20, 40);
+			loot_box.setItemRarityWeights({ 100, 40, 15 }, { 100, 45, 13 }, { 100, 55, 20 });
 
-		loot_box.clear();
-		loot_box.setItemsPool(inventory);
-		loot_box.setCoins(100);
-		loot_box.setGems(10);
-		loot_box.setXP(250);
-		loot_box.setItemAppearanceChances(20, 40, 35, 50);
-		loot_box.setItemRarityWeights({ 50, 30, 20, 10 }, { 55, 40, 20, 9 }, { 40, 35, 20, 12 });
+			loot_box.setNumberOfRolls(num_of_rolls);
 
-		loot_box.setNumberOfRolls(num_of_rolls);
+			loot_box.setup();
+			loot_box.display_loot();
+			_getch();
+			loot_box.give_loot_to_player(player);
+			goto render;
 
-		loot_box.setup();
-		loot_box.display_loot();
-		_getch();
-		goto render;
-	}
-	else {
-		gameScene(player);
-	}
+		case 3:
+			inventory.clear();
+			inventory.addSword(Sword("Wooden Sword"));
+			inventory.addSword(Sword("Iron Sword"));
+			inventory.addSword(Sword("Steel Sword"));
+			inventory.addSword(Sword("Diamond Sword"));
+			inventory.addArmor(Armor("Wooden Armor"));
+			inventory.addArmor(Armor("Iron Armor"));
+			inventory.addArmor(Armor("Steel Armor"));
+			inventory.addArmor(Armor("Diamond Armor"));
+			inventory.addPotion(Potion("Small HP Potion"));
+			inventory.addPotion(Potion("Medium HP Potion"));
+			inventory.addPotion(Potion("Large HP Potion"));
+			inventory.addPotion(Potion("XL HP Potion"));
+
+			loot_box.clear();
+			loot_box.setItemsPool(inventory);
+			loot_box.setCoins(1000);
+			loot_box.setGems(100);
+			loot_box.setXP(5500);
+			loot_box.setItemAppearanceChances(20, 40, 35, 50);
+			loot_box.setItemRarityWeights({ 50, 30, 20, 10 }, { 55, 40, 20, 9 }, { 40, 35, 20, 12 });
+
+			loot_box.setNumberOfRolls(num_of_rolls);
+
+			loot_box.setup();
+			loot_box.display_loot();
+			_getch();
+			loot_box.give_loot_to_player(player);
+			goto render;
+
+		default:
+			gameScene(player);
+    }
 
 }
 
@@ -1501,7 +1506,7 @@ void item_obtain_scene(Player player) {
 // Scenes
 /////////////////////////////////
 
-void mainScene(Player player) {
+void mainScene(Player& player) {
 	// Main scene where the player will have options to play, go to options or exit the game
 	// This is the very first scene to be displayed when launcing the game
 
@@ -1556,13 +1561,12 @@ void mainScene(Player player) {
 	}
 }
 
-void startMenuScene(Player player) {
+void startMenuScene(Player& player) {
 	// Scene where the player will have options for starting the game or to go back
 
 	vector<MenuItem> play_menu_items = { MenuItem("Play"), MenuItem("Options"), MenuItem("Back to Start Screen")};
 	Menu play_menu("Play", play_menu_items);
 	MenuManager menu_manager;
-
 	// Render
 	while (true) {
 		system("cls");
@@ -1595,20 +1599,21 @@ void startMenuScene(Player player) {
 	}
 }
 
-void selectPlayerFileScene(Player player) {
+void selectPlayerFileScene(Player& player) {
 	vector<MenuItem> player_items;
 
 	DataManager data_manager;
 	for (int i = 0; i < 5; i++) {
 		string player_item;
 		int player_data_exists = 0;
-		Player tempP;
-		tempP.setPlayerDataPath("Player " + to_string(i + 1));
-		tempP.loadPlayerData();
+		Inventory temPInv;/*
+		Player tempP(temPInv);*/
+		player.setPlayerDataPath("Player " + to_string(i + 1));
+		player.loadPlayerData();
 
-		string player_name = tempP.getName();
+		string player_name = player.getName();
 		if (player_name != "Entity") {
-			player_item = tempP.getName() + " - Level " + to_string(tempP.getLevel());
+			player_item = player.getName() + " - Level " + to_string(player.getLevel());
 			player_data_exists = 1;
 		}
 		else {
@@ -1650,10 +1655,12 @@ void selectPlayerFileScene(Player player) {
 		{
 		case 1:
 			// file exists
+			player.clearDataKeysAndValues();
 			loadSaveDataScene(player, "Player " + to_string(choice + 1));
 			break;
 		case 2:
 			// file does not exists, need to make a file
+			player.clearDataKeysAndValues();
 			newSaveCreationScene(player, "Player " + to_string(choice + 1));
 			break;
 		default:
@@ -1665,7 +1672,7 @@ void selectPlayerFileScene(Player player) {
 	}
 }
 
-void newSaveCreationScene(Player player, string file_path) {
+void newSaveCreationScene(Player& player, string file_path) {
 	// When the player wants to create a new save file
 	string name;
 
@@ -1680,16 +1687,15 @@ void newSaveCreationScene(Player player, string file_path) {
 	startMenuScene(player);
 }
 
-void loadSaveDataScene(Player player, string file_path) {
+void loadSaveDataScene(Player& player, string file_path) {
 	// When the player wants to load a save file
-
 	player.setPlayerDataPath(file_path);
 	player.loadPlayerData();
 
 	startMenuScene(player);
 }
 
-void optionsScene(Player player) {
+void optionsScene(Player& player) {
 	// When player selects the options menu
 	
 	vector<MenuItem> options_menu_items = { MenuItem("Clear Data"), MenuItem("Back") };
@@ -1726,7 +1732,7 @@ void optionsScene(Player player) {
 
 }
 
-void confirmClearDataScene(Player player) {
+void confirmClearDataScene(Player& player) {
 	// When the player wants to clear the data
 
 	vector<MenuItem> confirm_menu_items = { MenuItem("Yes"), MenuItem("No") };
@@ -1762,7 +1768,7 @@ void confirmClearDataScene(Player player) {
 	}
 }
 
-void playerDataClearedScene(Player player) {
+void playerDataClearedScene(Player& player) {
 	// When the player has deleted the data
 
 	vector<MenuItem> confirm_menu_items = { MenuItem("Ok!") };
@@ -1791,11 +1797,11 @@ void playerDataClearedScene(Player player) {
 	mainScene(player);
 }
 
-void gameScene(Player player)
+void gameScene(Player& player)
 {
 	// The main game scene where the player will play the game
 
-	vector<MenuItem> menuItems = { MenuItem("Go to Town"), MenuItem("Go to Dungeon"), MenuItem("View Inventory"), MenuItem("Save Game"), MenuItem("Exit") };
+	vector<MenuItem> menuItems = { MenuItem("Go to Town"), MenuItem("Go to Dungeon"), MenuItem("View Inventory"), MenuItem("Save Game"), MenuItem("Obtain Item (TESTING)"),MenuItem("Exit")};
 	Menu mainMenu("Main Menu", menuItems);
 	MenuManager menuManager;
 
@@ -1831,26 +1837,38 @@ void gameScene(Player player)
 		//dungeonScene(player);
 	}
 	else if (choice == 2) {
-		//inventoryScene(player);
+		inventoryScene(player);
 	}
 	else if (choice == 3) {
 		player.savePlayerData();
 		goto render;
+	}
+	else if (choice == 4) {
+		item_obtain_scene(player);
 	}
 	else {
 		startMenuScene(player);
 	}
 }
 
-void inventoryScene(Player player) {
+void inventoryScene(Player& player) {
 	// The scene where the player can see their inventory
 
 	vector<MenuItem> menuItems;
-	Menu mainMenu("Inventory", menuItems);
 	MenuManager menuManager;
 
-
+	// Add menu items
+	menuItems.push_back(MenuItem("Swords [" + to_string(player.getInventory().getSwords().size()) + "]"));
+	menuItems.push_back(MenuItem("Armors [" + to_string(player.getInventory().getArmors().size()) + "]"));
+	menuItems.push_back(MenuItem("Potions [" + to_string(player.getInventory().getPotions().size()) + "]"));
 	menuItems.push_back(MenuItem("Back"));
+
+	Menu mainMenu("Inventory", menuItems);
+	// Boolean variables to track selected items
+	bool swordsSelected = false;
+	bool armorsSelected = false;
+	bool potionsSelected = false;
+
 	// Render
 	while (true) {
 	render:
@@ -1876,7 +1894,161 @@ void inventoryScene(Player player) {
 	// End of Render
 
 	int choice = menuManager.getSelectionPos();
-	if (choice == menuItems.size() - 1) {
+	if (choice == 0) {
+		swordsSelected = true;
+	}
+	else if (choice == 1) {
+		armorsSelected = true;
+	}
+	else if (choice == 2) {
+		potionsSelected = true;
+	}
+	else if (choice == 3) {
 		gameScene(player);
+		return;
+	}
+
+	// Render selected item scene
+	if (swordsSelected) {
+		swordInventoryScene(player);
+	}
+	else if (armorsSelected) {
+		armorInventoryScene(player);
+	}
+	else if (potionsSelected) {
+		potionInventoryScene(player);
+	}
+}
+
+void swordInventoryScene(Player& player) {
+	vector<MenuItem> swordItems;
+	DataManager swords_dm;
+	
+	swords_dm.setDataRoot(swords_dm.getDataRoot() + "\\Configs\\Inventory\\Swords");
+	vector<Sword> swords_in_inventory = player.getInventory().getSwords();
+
+	for (int i = 0; i < swords_in_inventory.size(); i++) {
+		Sword sword = swords_in_inventory[i];
+
+		swordItems.push_back(MenuItem(sword.getName() + " - Damage: " + to_string(sword.getDamage()) + " - Durability: " + to_string(sword.getDurability())));
+
+		// Assuming getSwordDetails returns a string with the required format
+		//swordItems.push_back(MenuItem(getSwordDetails(item)));
+	}
+	swordItems.push_back(MenuItem("Back"));
+
+	Menu swordMenu("Swords", swordItems);
+	MenuManager menuManager;
+
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Swords", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(swordMenu);
+
+		int mode = menuManager.handleMenuSelection(swordMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+
+	}
+	int choice = menuManager.getSelectionPos();
+	if (choice == swordItems.size() - 1) {
+		inventoryScene(player);
+	}
+	else {
+		// Display sword details
+		//displaySwordDetails(swords_dm.getItems()[choice]);
+	}
+}
+
+void armorInventoryScene(Player& player) {
+	vector<MenuItem> armorItems;
+	DataManager armors_dm;
+	armors_dm.setDataRoot(armors_dm.getDataRoot() + "\\Configs\\Inventory\\Armors");
+
+	vector<Armor> armors_in_inventory = player.getInventory().getArmors();
+
+	for (int i = 0; i < armors_in_inventory.size(); i++) {
+		Armor armor = armors_in_inventory[i];
+		armorItems.push_back(MenuItem(armor.getName() + " - Defense: " + to_string(armor.getDefense()) + " - Durability: " + to_string(armor.getDurability())));
+		// Assuming getArmorDetails returns a string with the required format
+		//armorItems.push_back(MenuItem(getArmorDetails(item)));
+	}
+	armorItems.push_back(MenuItem("Back"));
+
+	Menu armorMenu("Armors", armorItems);
+	MenuManager menuManager;
+
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Armors", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(armorMenu);
+
+		int mode = menuManager.handleMenuSelection(armorMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+	}
+
+	int choice = menuManager.getSelectionPos();
+	if (choice == armorItems.size() - 1) {
+		inventoryScene(player);
+	}
+	else {
+		// Display armor details
+		//displayArmorDetails(armors_dm.getItems()[choice]);
+	}
+}
+
+void potionInventoryScene(Player& player) {
+	vector<MenuItem> potionItems;
+	DataManager potions_dm;
+	potions_dm.setDataRoot(potions_dm.getDataRoot() + "\\Configs\\Inventory\\Potions");
+
+	vector<Potion> potions_in_inventory = player.getInventory().getPotions();
+	for (int i = 0; i < potions_in_inventory.size(); i++) {
+		Potion potion = potions_in_inventory[i];
+		potionItems.push_back(MenuItem(potion.getName() + " - Heal: " + to_string(potion.getHealth()) + " - In inventory: " + to_string(potion.getQuantity())));
+		// Assuming getPotionDetails returns a string with the required format
+		//potionItems.push_back(MenuItem(getPotionDetails(item)));
+	}
+	potionItems.push_back(MenuItem("Back"));
+
+	Menu potionMenu("Potions", potionItems);
+	MenuManager menuManager;
+
+	while (true) {
+		system("cls");
+
+		vector<string> headerBoardContent = { "", "Potions", "" };
+		cout << headerBoard(headerBoardContent, 25, 5);
+
+		cout << set_space_V(3);
+		menuManager.displayMenu(potionMenu);
+
+		int mode = menuManager.handleMenuSelection(potionMenu);
+
+		if (mode == 5) { // Enter Pressed
+			break;
+		}
+
+	}
+	int choice = menuManager.getSelectionPos();
+	if (choice == potionItems.size() - 1) {
+		inventoryScene(player);
+	}
+	else {
+		// Display potion details
+		//displayPotionDetails(potions_dm.getItems()[choice]);
 	}
 }

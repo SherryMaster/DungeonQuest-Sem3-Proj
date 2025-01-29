@@ -18,8 +18,8 @@ int main() {
 	system("mkdir Configs\\Inventory\\Armors");
 	system("mkdir Configs\\Inventory\\Potions");
 
-
-	Player player;
+	Inventory playerInv;
+	Player player(playerInv);
 
 	mainScene(player);
 	

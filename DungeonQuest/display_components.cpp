@@ -98,7 +98,7 @@ string headerBoard(vector<string> inner_content, int space_from_left, int space_
     return content;
 }
 
-string playerInfoHeader(Player player)
+string playerInfoHeader(Player& player)
 {
     string content;
     content.append("Name: " + player.getName() + "\n");
